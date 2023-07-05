@@ -411,7 +411,7 @@ public class CashierController {
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, resultSetDataSource);
 
-            net.sf.jasperreports.view.JasperViewer.viewReport(jasperPrint, false);
+            //net.sf.jasperreports.view.JasperViewer.viewReport(jasperPrint, false);
             JasperPrintManager.printReport(jasperPrint, true);
 
         } catch (Exception e) {

@@ -60,12 +60,11 @@ public class DashboardController implements Initializable {
     void salesOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/cashier/Cashier.fxml"));
         Node resource = fxmlLoader.load();
+        CashierController controller = fxmlLoader.getController();
         home.getChildren().clear();
         home.getChildren().add(resource);
-        CashierController controller = fxmlLoader.getController();
+        controller.cashier_name = this.cashier_name;
         controller.searchTexfeld.requestFocus();
-        controller.cashier_name=this.cashier_name;
-
     }
 
     @FXML
@@ -80,18 +79,20 @@ public class DashboardController implements Initializable {
         home.getChildren().clear();
         home.getChildren().add(resource);
         StockController controller = fxmlLoader.getController();
-
-
     }
-
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        lodeMethode();
+    }
+
+    private void lodeMethode() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/cashier/Cashier.fxml"));
         Node resource = fxmlLoader.load();
+        CashierController controller = fxmlLoader.getController();
         home.getChildren().clear();
         home.getChildren().add(resource);
-        CashierController controller = fxmlLoader.getController();
+        controller.cashier_name = this.cashier_name;
         controller.searchTexfeld.requestFocus();
     }
 }
