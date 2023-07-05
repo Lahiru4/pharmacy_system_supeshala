@@ -40,6 +40,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     public Label username;
+    public String cashier_name;
 
     @FXML
     void employOnAction(ActionEvent event) throws IOException {
@@ -63,6 +64,7 @@ public class DashboardController implements Initializable {
         home.getChildren().add(resource);
         CashierController controller = fxmlLoader.getController();
         controller.searchTexfeld.requestFocus();
+        controller.cashier_name=this.cashier_name;
 
     }
 

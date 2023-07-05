@@ -51,6 +51,7 @@ public class LoginFormController implements Initializable {
             Parent parent = fxmlLoader.load();
             DashboardController controller = fxmlLoader.getController();
             controller.username.setText(userName.getText());
+            controller.cashier_name=userName.getText();
             stage.setScene(new Scene(parent));
             stage.centerOnScreen();
             stage.show();
@@ -92,6 +93,7 @@ public class LoginFormController implements Initializable {
             Parent parent = fxmlLoader.load();
             DashboardController controller = fxmlLoader.getController();
             controller.username.setText(userName.getText());
+            controller.cashier_name=userName.getText();
             stage.setScene(new Scene(parent));
             stage.centerOnScreen();
             stage.show();

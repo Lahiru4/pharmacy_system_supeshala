@@ -17,6 +17,7 @@
 	<parameter name="cash_paid" class="java.lang.Double"/>
 	<parameter name="balance" class="java.lang.Double"/>
 	<parameter name="customer_name" class="java.lang.String"/>
+	<parameter name="cashier_name" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date from orderdetails od inner join orders o ON od.order_id=o.order_id where o.order_id=$P{order_Id}]]>
 	</queryString>
@@ -54,7 +55,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="95" splitType="Stretch">
+		<band height="110" splitType="Stretch">
 			<staticText>
 				<reportElement x="18" y="-18" width="168" height="30" uuid="fa646ff8-99ba-456a-a14c-cc946042e801"/>
 				<textElement>
@@ -68,23 +69,23 @@
 Godagama,Homagama]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="46" y="76" width="100" height="18" uuid="967446c7-6f9e-4109-91e3-ad13aadb4608"/>
+				<reportElement x="46" y="91" width="100" height="18" uuid="967446c7-6f9e-4109-91e3-ad13aadb4608"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="-12" y="76" width="100" height="14" uuid="631948d3-981f-4241-a590-13c9fa4ddfcb"/>
+				<reportElement x="-13" y="91" width="100" height="14" uuid="631948d3-981f-4241-a590-13c9fa4ddfcb"/>
 				<text><![CDATA[Date            :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-13" y="59" width="100" height="14" uuid="059f2c37-01da-491e-995d-91e36be3f3c5"/>
+				<reportElement x="-13" y="74" width="100" height="14" uuid="059f2c37-01da-491e-995d-91e36be3f3c5"/>
 				<text><![CDATA[Invoice No   :]]></text>
 			</staticText>
 			<textField pattern="HH:mm">
-				<reportElement x="131" y="76" width="60" height="18" uuid="ebf33318-beb6-420c-9cdd-a60d7718844b"/>
+				<reportElement x="131" y="91" width="60" height="18" uuid="ebf33318-beb6-420c-9cdd-a60d7718844b"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="53" y="59" width="93" height="17" uuid="b434e82f-7534-4a72-b4b9-e3a42278c539"/>
+				<reportElement x="53" y="74" width="93" height="17" uuid="b434e82f-7534-4a72-b4b9-e3a42278c539"/>
 				<textFieldExpression><![CDATA[$P{order_Id}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -101,6 +102,14 @@ Godagama,Homagama]]></text>
 			<textField>
 				<reportElement x="68" y="44" width="136" height="23" uuid="d540eeb7-3b75-45e3-aaac-d32de43ae4f8"/>
 				<textFieldExpression><![CDATA[$P{customer_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-13" y="60" width="66" height="14" uuid="9089bd6c-72b0-43e7-b2a5-bd075de9eba9"/>
+				<text><![CDATA[cashier        :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="52" y="60" width="152" height="14" uuid="715241be-6073-4ffb-8eb7-b63d80b4d106"/>
+				<textFieldExpression><![CDATA[$P{cashier_name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -150,7 +159,7 @@ Godagama,Homagama]]></text>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="48" splitType="Stretch">
+		<band height="33" splitType="Stretch">
 			<textField>
 				<reportElement key="" x="-13" y="-4" width="196" height="20" uuid="2fa6e5ee-b024-4a51-8f60-35538dba01c0">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="066ec887-191f-4ae7-be3e-9760960fbedb"/>
@@ -184,7 +193,7 @@ Godagama,Homagama]]></text>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="113" splitType="Stretch">
+		<band height="109" splitType="Stretch">
 			<staticText>
 				<reportElement x="68" y="0" width="60" height="20" uuid="f14c98e1-1f04-4dd3-9554-22915c4d3ab1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="066ec887-191f-4ae7-be3e-9760960fbedb"/>
@@ -215,13 +224,6 @@ Godagama,Homagama]]></text>
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#303030"/>
 				</graphicElement>
 			</line>
-			<staticText>
-				<reportElement x="23" y="80" width="154" height="20" uuid="a90a9c58-8e15-4d19-a229-76f38b7bc8a2"/>
-				<textElement>
-					<font size="11"/>
-				</textElement>
-				<text><![CDATA[Thank You & Come Again !]]></text>
-			</staticText>
 			<textField>
 				<reportElement x="130" y="20" width="66" height="20" uuid="127ab411-33bd-42bc-8ec7-9119e38b4163"/>
 				<textFieldExpression><![CDATA[$P{cash_paid}]]></textFieldExpression>
@@ -231,11 +233,25 @@ Godagama,Homagama]]></text>
 				<textFieldExpression><![CDATA[$P{balance}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="34" y="92" width="116" height="18" uuid="4f892359-6cfc-4a15-84a6-7a82e2e8808d"/>
+				<reportElement x="34" y="93" width="116" height="15" uuid="4f892359-6cfc-4a15-84a6-7a82e2e8808d"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[POS SYSTEM 0787969637]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="70" width="136" height="20" uuid="abfef21d-3cea-4c56-9269-4701a3923a59"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Thank You For Visiting Us]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="80" width="148" height="20" uuid="ed7ca48e-8208-4cb5-b57e-cf12d4112015"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Goods sold are not returnable]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

@@ -58,11 +58,11 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="setting" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="531.0" onAction="#settingsOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Settings">
+            <JFXButton fx:id="setting" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="531.0" onAction="#settingsOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Emplyee">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@assests/images/icons8-settings-48.png" />
+                        <Image url="@assests/images/icons8-admin-settings-male-96.png" />
                      </image>
                   </ImageView>
                </graphic>

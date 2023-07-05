@@ -53,6 +53,7 @@ import java.util.Optional;
 
 public class CashierController {
     public TextField grossTot;
+    public String cashier_name;
     public TextField discount;
     public TableColumn amount;
     public Label order_id_lbl;
@@ -385,7 +386,6 @@ public class CashierController {
         cashPaid.clear();
         balance.clear();
         customer_name.clear();
-
     }
 
     private void printBill(String count, String orderId, Double cashPaid, Double balance, InputStream resourceAsStream) {
@@ -407,6 +407,7 @@ public class CashierController {
             parameters.put("balance", balance);
             parameters.put("count", count);
             parameters.put("customer_name", customer_name.getText());
+            parameters.put("cashier_name", cashier_name);
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, resultSetDataSource);
 
