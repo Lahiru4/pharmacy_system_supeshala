@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="supBoard" prefHeight="760.0" prefWidth="1085.0" stylesheets="@../assests/styles/Stock.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.sup.SupplierController">
+   <children>
+      <Label alignment="CENTER" layoutX="819.0" layoutY="23.0" prefHeight="40.0" prefWidth="160.0" text="Supplier" textFill="#eb0000">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <TableView fx:id="sup_table" layoutX="42.0" layoutY="163.0" onMouseClicked="#upDate" prefHeight="534.0" prefWidth="1013.0" stylesheets="@../assests/styles/Table.css">
+        <columns>
+          <TableColumn fx:id="name" prefWidth="236.0" text="Name" />
+          <TableColumn fx:id="position" prefWidth="216.0" text="position" />
+            <TableColumn fx:id="number" prefWidth="264.0" text="Phone Number" />
+            <TableColumn fx:id="address" prefWidth="295.0" text="Address" />
+        </columns>
+      </TableView>
+      <TextField layoutX="42.0" layoutY="107.0" prefHeight="27.0" prefWidth="480.0" stylesheets="@../assests/styles/texfelds.css" />
+      <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="50.0" layoutY="17.0" onAction="#SupplierOnAction" prefHeight="68.0" prefWidth="150.0" styleClass="addItems" text="Supplier">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/images/icons8-add-48.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+   </children>
+</AnchorPane>

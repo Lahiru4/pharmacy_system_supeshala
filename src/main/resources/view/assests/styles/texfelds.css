@@ -1,0 +1,16 @@
+.text-field {
+    -fx-background-radius: 5;
+    -fx-border-color: black;
+    -fx-border-radius: 5;
+}
+.combo-box{
+    -fx-background-radius: 5;
+    -fx-border-color: black;
+    -fx-border-radius: 5;
+    -fx-font-size: 14;
+
+}
+.label {
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+}

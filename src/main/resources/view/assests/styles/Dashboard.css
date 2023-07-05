@@ -1,0 +1,23 @@
+.orderBtn2 {
+    -fx-border-radius: 25;
+    /*-fx-border-color: #000000;*/
+    -fx-background-color: #f6f1f1;
+    -fx-background-radius: 25;
+    -fx-border-width: 2;
+}
+.orderBtn {
+    -fx-background-color: #3f497f;
+    -fx-border-radius: 25;
+    /*-fx-border-color: #000000;*/
+    -fx-background-radius: 25;
+    -fx-border-width: 2;
+}
+.btn {
+    -fx-background-color: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-font-weight: bold;
+    -fx-border-color: black;
+    -fx-font-size: 15;
+
+}

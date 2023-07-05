@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="424.0" prefWidth="651.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.sup.AddSupController">
+   <children>
+      <AnchorPane prefHeight="425.0" prefWidth="651.0" stylesheets="@../assests/styles/texfelds.css">
+         <children>
+            <TextField fx:id="name" layoutX="219.0" layoutY="55.0" prefHeight="33.0" prefWidth="384.0" styleClass="addTexCss">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="phoneNumber" layoutX="219.0" layoutY="205.0" prefHeight="33.0" prefWidth="384.0" styleClass="addTexCss">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label layoutX="48.0" layoutY="61.0" styleClass="lbl" text="Supller Name">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="48.0" layoutY="211.0" styleClass="lbl" text="Phone Number">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="48.0" layoutY="286.0" styleClass="lbl" text="Address">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="position" layoutX="219.0" layoutY="132.0" prefHeight="27.0" prefWidth="287.0" style="-fx-background-color: white;" styleClass="addTexCss" />
+            <JFXButton fx:id="save" buttonType="RAISED" layoutX="461.0" layoutY="347.0" onAction="#saveOnAction" prefHeight="44.0" prefWidth="142.0" styleClass="addItems" stylesheets="@../assests/styles/Stock.css" text="Save">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assests/images/icons8-ok-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <TextField fx:id="address" layoutX="219.0" layoutY="280.0" prefHeight="33.0" prefWidth="384.0" styleClass="addTexCss">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label layoutX="48.0" layoutY="135.0" styleClass="lbl" text="position">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="delete" buttonType="RAISED" layoutX="301.0" layoutY="347.0" onAction="#deleteOnAction" prefHeight="44.0" prefWidth="142.0" styleClass="addItems" stylesheets="@../assests/styles/Stock.css" text="Delete">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assests/images/icons8-delete-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.stock.StockController">
+   <children>
+      <AnchorPane prefHeight="760.0" prefWidth="1213.0" style="-fx-background-color: white;" stylesheets="@../assests/styles/Stock.css">
+         <children>
+            <TableView fx:id="stockTable" layoutX="17.0" layoutY="188.0" onMouseClicked="#mouseClickOnAction" prefHeight="535.0" prefWidth="1175.0" stylesheets="@../assests/styles/Table.css">
+               <columns>
+                  <TableColumn id="itemcode" fx:id="stockId" prefWidth="67.0" text="Id" />
+                  <TableColumn id="description" fx:id="importer" prefWidth="216.0" text="Importer" />
+                  <TableColumn id="qty" fx:id="distributor" prefWidth="170.0" text="Area distributor" />
+                  <TableColumn id="sellingPrice" fx:id="represent" prefWidth="191.0" text="Sales Represent" />
+                  <TableColumn id="purshasePrice" fx:id="agency" prefWidth="182.0" text="Agency" />
+                  <TableColumn id="supplier" fx:id="totQty" prefWidth="134.0" text="Items" />
+                  <TableColumn id="supplier" fx:id="stockDate" prefWidth="157.0" text="Stock Date" />
+                  <TableColumn id="supplier" fx:id="action" prefWidth="57.0" />
+               </columns>
+            </TableView>
+            <JFXButton fx:id="addItems" buttonType="RAISED" contentDisplay="TOP" layoutX="37.0" layoutY="29.0" onAction="#addItemOnAction" prefHeight="68.0" prefWidth="150.0" styleClass="addItems" text="Add Items">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assests/images/icons8-add-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="stockReport" buttonType="RAISED" contentDisplay="TOP" layoutX="221.0" layoutY="29.0" onAction="#stockReportOnAction" prefHeight="68.0" prefWidth="150.0" styleClass="addItems" text="Report">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assests/images/icons8-business-report-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="reportMail" buttonType="RAISED" contentDisplay="TOP" layoutX="404.0" layoutY="29.0" onAction="#reportMailOnAction" prefHeight="68.0" prefWidth="150.0" styleClass="addItems" text="Report Mail">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assests/images/icons8-send-email-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <TextField fx:id="searchTexfeld" layoutX="17.0" layoutY="134.0" onKeyReleased="#searchTexfeldOnAction" prefHeight="25.0" prefWidth="533.0" promptText="Search" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label alignment="CENTER" layoutX="797.0" layoutY="41.0" text="Pharmacy Stock" textFill="#eb0000">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="576.0" layoutY="29.0" onAction="#SupplierOnAction" prefHeight="68.0" prefWidth="150.0" styleClass="addItems" text="Supplier">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assests/images/icons8-admin-settings-male-96.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="779.0" layoutY="100.0" onAction="#searchItemOnAction" prefHeight="68.0" prefWidth="247.0" styleClass="addItems" text="Searh Items">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assests/images/icons8-magnifying-glass-tilted-right-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

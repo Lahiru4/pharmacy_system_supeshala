@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="582.0" prefWidth="431.0" style="-fx-background-color: white;" stylesheets="@assests/styles/logIn.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginFormController">
+   <children>
+      <Label layoutX="81.0" layoutY="48.0" styleClass="shine-label" text="Samadhi Pharmacy" textFill="#dd2323">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="91.0" fitWidth="81.0" layoutX="175.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@assests/images/icons8-lock%20(1).gif" />
+         </image>
+      </ImageView>
+      <TextField fx:id="userName" layoutX="86.0" layoutY="242.0" onAction="#userNameOnAction" prefHeight="25.0" prefWidth="260.0" promptText="user Name" stylesheets="@assests/styles/texfelds.css">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <JFXButton buttonType="RAISED" layoutX="160.0" layoutY="379.0" onAction="#logInOnAction" prefHeight="31.0" prefWidth="111.0" style="-fx-background-color: #50ee50;" text="Log in">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label alignment="CENTER" layoutX="80.0" layoutY="469.0" prefHeight="21.0" prefWidth="271.0" text="Don not Have Account.Go to Register">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Label>
+      <PasswordField fx:id="password" layoutX="86.0" layoutY="316.0" onAction="#passwordOnAction" prefHeight="25.0" prefWidth="260.0" promptText="password" stylesheets="@assests/styles/texfelds.css">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </PasswordField>
+   </children>
+</AnchorPane>

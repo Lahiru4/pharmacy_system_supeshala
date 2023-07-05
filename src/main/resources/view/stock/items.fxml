@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="760.0" prefWidth="1210.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.stock.ItemsController">
+   <children>
+      <TextField fx:id="searchTexfeld" layoutX="21.0" layoutY="63.0" onKeyReleased="#searchTexfeldOnAction" prefHeight="33.0" prefWidth="646.0" promptText="Search" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <TableView fx:id="lists" layoutX="21.0" layoutY="127.0" onMouseClicked="#editOnAction" prefHeight="607.0" prefWidth="1169.0" stylesheets="@../assests/styles/Table.css">
+         <columns>
+            <TableColumn fx:id="item_code" prefWidth="97.00003051757812" text="Item Code" />
+            <TableColumn fx:id="name" prefWidth="342.0" text="Description " />
+            <TableColumn fx:id="stock_id" prefWidth="111.0" text="Stock ID" />
+            <TableColumn fx:id="qtyC" prefWidth="105.0" text="QTY" />
+            <TableColumn fx:id="sellP" prefWidth="191.0" text="Selling price" />
+            <TableColumn fx:id="purchP" minWidth="0.0" prefWidth="178.0" text="Purchase Price" />
+            <TableColumn fx:id="exDate" minWidth="0.0" prefWidth="143.0" text="EXP Date" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

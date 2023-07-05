@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1213.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.cashier.CashierController">
+   <children>
+      <AnchorPane prefHeight="760.0" prefWidth="1213.0">
+         <children>
+            <AnchorPane fx:id="itemsAndBill" prefHeight="760.0" prefWidth="1213.0" style="-fx-background-color: white;">
+               <children>
+                  <TableView fx:id="showTable" layoutX="25.0" layoutY="151.0" onMouseClicked="#addCartOnAction" prefHeight="491.0" prefWidth="641.0" stylesheets="@../assests/styles/Table.css">
+                     <columns>
+                        <TableColumn fx:id="img" prefWidth="60.0" />
+                        <TableColumn fx:id="description" prefWidth="217.0" text="Description" />
+                        <TableColumn fx:id="qty" prefWidth="127.0" text="QTY" />
+                        <TableColumn fx:id="price" prefWidth="104.0" text="Price" />
+                        <TableColumn fx:id="expirationDate" prefWidth="130.0" text="Expiration Date" />
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="billTable" layoutX="692.0" layoutY="74.0" onMouseClicked="#billDelectOnAction" prefHeight="344.0" prefWidth="469.0" stylesheets="@../assests/styles/Table.css">
+                     <columns>
+                        <TableColumn fx:id="billTableItems" prefWidth="190.0" text="Item" />
+                        <TableColumn fx:id="billTableQty" prefWidth="82.0" text="QTY" />
+                        <TableColumn fx:id="billTablePrice" prefWidth="92.0" text="Price" />
+                        <TableColumn fx:id="amount" prefWidth="103.0" text="Amount" />
+                     </columns>
+                  </TableView>
+                  <TextField fx:id="searchTexfeld" layoutX="26.0" layoutY="91.0" onAction="#searchOnAction" onKeyPressed="#onKeyPressed" prefHeight="33.0" prefWidth="502.0" promptText="search" stylesheets="@../assests/styles/texfelds.css">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="cashPaid" layoutX="923.0" layoutY="577.0" onAction="#cashPaidOnAction" prefHeight="33.0" prefWidth="237.0" promptText="00.00" stylesheets="@../assests/styles/texfelds.css">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="778.0" layoutY="580.0" text="Cash Paid">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="balance" editable="false" layoutX="923.0" layoutY="626.0" onAction="#balanceOnAction" prefHeight="33.0" prefWidth="237.0" promptText="00.00" stylesheets="@../assests/styles/texfelds.css">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="779.0" layoutY="629.0" prefHeight="27.0" prefWidth="91.0" text="Balance">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="778.0" layoutY="431.0" text="Total">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tot" editable="false" layoutX="923.0" layoutY="428.0" onAction="#totOnAction" prefHeight="33.0" prefWidth="237.0" promptText="00.00" stylesheets="@../assests/styles/texfelds.css">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <JFXButton fx:id="pay" layoutX="923.0" layoutY="675.0" onAction="#payOnAction" prefHeight="40.0" prefWidth="237.0" styleClass="pay" stylesheets="@../assests/styles/btn.css" text="PAY">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assests/images/make_order.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </JFXButton>
+                  <Label fx:id="mainDate" layoutX="1055.0" layoutY="8.0" text="2023.03.12" textFill="#f50000">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="777.0" layoutY="481.0" text="Discount %">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="discount" layoutX="922.0" layoutY="478.0" onAction="#disOnAction" onKeyReleased="#discountOnAction" prefHeight="33.0" prefWidth="237.0" promptText="00.00" stylesheets="@../assests/styles/texfelds.css">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="26.0" layoutY="34.0" text="Samadhi Pharmacy" textFill="#f50000">
+                     <font>
+                        <Font name="System Bold" size="28.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="52.0" fitWidth="62.0" layoutX="26.0" layoutY="649.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assests/images/336466086_586353040092560_2636709004728389465_n.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="193.0" layoutY="655.0" prefHeight="40.0" prefWidth="373.0" text="NEW TECH POS     Hot Line : 078 796 9637">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="777.0" layoutY="531.0" style="-fx-font-weight: bold;" text="GROSS TOTAL">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="grossTot" editable="false" layoutX="922.0" layoutY="528.0" onAction="#grossTotOnAction" prefHeight="33.0" prefWidth="237.0" promptText="00.00" style="-fx-font-weight: bold;" stylesheets="@../assests/styles/texfelds.css">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label fx:id="order_id_lbl" layoutX="1042.0" layoutY="54.0" prefHeight="21.0" prefWidth="120.0" text="ORD001">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="customer_name" layoutX="692.0" layoutY="40.0" prefHeight="25.0" prefWidth="237.0" promptText="name" style="-fx-border-color: black; -fx-border-radius: 5; -fx-background-color: white;" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
