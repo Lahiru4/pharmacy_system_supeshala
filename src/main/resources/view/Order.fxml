@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="760.0" prefWidth="1213.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderController">
+<AnchorPane prefHeight="760.0" prefWidth="1213.0" stylesheets="@assests/styles/Stock.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderController">
    <children>
-      <TableView fx:id="order" layoutX="33.0" layoutY="60.0" onMouseClicked="#returnOnAction" prefHeight="629.0" prefWidth="1147.0" stylesheets="@assests/styles/Table.css">
+      <TableView fx:id="order" layoutX="33.0" layoutY="156.0" onMouseClicked="#returnOnAction" prefHeight="533.0" prefWidth="1147.0" stylesheets="@assests/styles/Table.css">
         <columns>
           <TableColumn fx:id="id" prefWidth="128.0" text="Order ID" />
           <TableColumn fx:id="totQty" prefWidth="228.0" text="Total qty" />
@@ -16,5 +22,25 @@
             <TableColumn fx:id="action" prefWidth="84.0" />
         </columns>
       </TableView>
+      <Label layoutX="867.0" layoutY="24.0" text="Order Management Page" textFill="#f50000">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="select_date" layoutX="33.0" layoutY="64.0" onAction="#selectDataOnAction" prefHeight="27.0" prefWidth="208.0" stylesheets="@assests/styles/texfelds.css" />
+      <AnchorPane layoutX="397.0" layoutY="20.0" prefHeight="116.0" prefWidth="122.0" styleClass="addItems">
+         <effect>
+            <DropShadow color="#6f6969" />
+         </effect>
+         <children>
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="39.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assests/images/icons8-stocks-growth-48.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="14.0" layoutY="59.0" style="-fx-font-size: 16;" text="Order Count" />
+            <Label fx:id="order_count" alignment="CENTER" layoutX="17.0" layoutY="84.0" prefHeight="20.0" prefWidth="88.0" text="0" textFill="#290bee" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

@@ -28,6 +28,22 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
+    public int getEmployeeCount() {
+        int count = 0;
+        try {
+            String sql = "SELECT COUNT(*) AS employeeCount FROM employee";
+            ResultSet resultSet = CrudUtil.execute(sql);
+            if (resultSet.next()) {
+                count = resultSet.getInt("employeeCount");
+            }
+            resultSet.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    @Override
     public ArrayList<EmployeeDTO> getAll() throws SQLException, ClassNotFoundException {
         ArrayList<EmployeeDTO> employees = new ArrayList<>();
         String sql = "SELECT employee_id, name, phone_number, register_date, position FROM employee";
@@ -49,18 +65,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public boolean add(EmployeeDTO employee) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO employee (employee_id, name, phone_number, register_date, position) " +
                 "VALUES (?, ?, ?, ?, ?)";
-        int rowsAffected = CrudUtil.execute(sql, employee.getId(), employee.getName(),
+        return CrudUtil.execute(sql, employee.getId(), employee.getName(),
                 employee.getPhone(), employee.getRegisterDate(), employee.getPosition());
-        return rowsAffected > 0;
 
     }
 
     @Override
     public boolean update(EmployeeDTO employee) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE employee SET name = ?, phone_number = ?, register_date = ?, position = ? WHERE employee_id = ?";
-        int rowsAffected = CrudUtil.execute(sql, employee.getName(), employee.getPhone(),
+        return CrudUtil.execute(sql, employee.getName(), employee.getPhone(),
                 employee.getRegisterDate(), employee.getPosition(), employee.getId());
-        return rowsAffected > 0;
     }
 
     @Override
@@ -91,9 +105,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return null;
     }
 
-        @Override
-        public boolean delete (String id) throws SQLException, ClassNotFoundException {
-            String sql = "DELETE FROM employee WHERE employee_id = ?";
-            return CrudUtil.execute(sql, id);
-        }
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        String sql = "DELETE FROM employee WHERE employee_id = ?";
+        return CrudUtil.execute(sql, id);
     }
+}

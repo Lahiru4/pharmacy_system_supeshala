@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1213.0" stylesheets="@../assests/styles/Stock.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.home.HomeController">
+   <children>
+      <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="869.0" layoutY="174.0" prefHeight="60.0" prefWidth="139.0" styleClass="addItems" text="Daly Report">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/images/icons8-business-report-48.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label fx:id="time" alignment="CENTER" layoutX="1019.0" layoutY="71.0" prefHeight="40.0" prefWidth="146.0" style="-fx-font-weight: bold; -fx-font-size: 20; -fx-background-color: #ffffff;" styleClass="addItems" text="00.00" textFill="#000000">
+         <effect>
+            <DropShadow color="#867d7d" />
+         </effect>
+      </Label>
+      <AnchorPane layoutX="36.0" layoutY="164.0" prefHeight="561.0" prefWidth="648.0" style="-fx-background-color: white; -fx-border-radius: 20; -fx-background-radius: 20;">
+         <children>
+            <BarChart fx:id="bar_chart" layoutX="14.0" layoutY="50.0" prefHeight="495.0" prefWidth="605.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM">
+                     <tickLabelFont>
+                        <Font size="14.0" />
+                     </tickLabelFont></CategoryAxis>
+              </xAxis>
+              <yAxis>
+                <NumberAxis lowerBound="10.0" minorTickCount="0" side="TOP" tickLabelFill="#0004e1" tickLength="15.0" upperBound="10.0">
+                     <tickLabelFont>
+                        <Font size="18.0" />
+                     </tickLabelFont></NumberAxis>
+              </yAxis>
+            </BarChart>
+            <Label alignment="CENTER" layoutX="115.0" layoutY="15.0" prefHeight="33.0" prefWidth="404.0" style="-fx-font-weight: bold; -fx-font-size: 20; -fx-background-color: white;" text="Today and last 7 days order counts " textFill="#e10000" />
+         </children>
+         <effect>
+            <DropShadow color="#bcb1b1" />
+         </effect>
+      </AnchorPane>
+      <Label layoutX="1048.0" layoutY="19.0" text="Home " textFill="#f50000">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <PieChart fx:id="pieChart" layoutX="712.0" layoutY="191.0" prefHeight="478.0" prefWidth="475.0" />
+      <AnchorPane layoutX="292.0" layoutY="25.0" prefHeight="116.0" prefWidth="102.0" styleClass="addItems">
+         <effect>
+            <DropShadow color="#6f6969" />
+         </effect>
+         <children>
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="29.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/images/newStockimg.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="30.0" layoutY="59.0" style="-fx-font-size: 16;" text="Stock" />
+            <Label fx:id="stock_count" alignment="CENTER" layoutX="7.0" layoutY="84.0" prefHeight="20.0" prefWidth="88.0" text="0" textFill="#290bee" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="492.0" layoutY="25.0" prefHeight="116.0" prefWidth="102.0" styleClass="addItems">
+         <effect>
+            <DropShadow color="#6f6969" />
+         </effect>
+         <children>
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="29.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/images/icons8-supplier-48.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="17.0" layoutY="59.0" style="-fx-font-size: 16;" text="Employee" />
+            <Label fx:id="employ_count" alignment="CENTER" layoutX="7.0" layoutY="84.0" prefHeight="20.0" prefWidth="88.0" text="0" textFill="#290bee" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="103.0" layoutY="25.0" prefHeight="116.0" prefWidth="102.0" styleClass="addItems">
+         <effect>
+            <DropShadow color="#6f6969" />
+         </effect>
+         <children>
+            <ImageView fitHeight="40.0" fitWidth="42.0" layoutX="31.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/images/img_4.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="24.0" layoutY="54.0" style="-fx-font-size: 16;" text="Invoice" />
+            <Label fx:id="today_bill_count" alignment="CENTER" layoutX="7.0" layoutY="84.0" prefHeight="20.0" prefWidth="88.0" text="0" textFill="#290bee" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="684.0" layoutY="25.0" prefHeight="116.0" prefWidth="102.0" styleClass="addItems">
+         <effect>
+            <DropShadow color="#6f6969" />
+         </effect>
+         <children>
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="29.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/images/icons8-banknotes-48.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="59.0" prefHeight="25.0" prefWidth="74.0" style="-fx-font-size: 16;" text="Profit" />
+            <Label fx:id="profit_count" alignment="CENTER" layoutX="7.0" layoutY="84.0" prefHeight="20.0" prefWidth="88.0" text="0" textFill="#290bee" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

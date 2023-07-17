@@ -66,23 +66,23 @@
 Godagama,Homagama]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="46" y="65" width="100" height="18" uuid="967446c7-6f9e-4109-91e3-ad13aadb4608"/>
+				<reportElement x="46" y="81" width="100" height="18" uuid="967446c7-6f9e-4109-91e3-ad13aadb4608"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="-12" y="65" width="100" height="14" uuid="631948d3-981f-4241-a590-13c9fa4ddfcb"/>
+				<reportElement x="-12" y="81" width="100" height="14" uuid="631948d3-981f-4241-a590-13c9fa4ddfcb"/>
 				<text><![CDATA[Date            :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-13" y="48" width="100" height="14" uuid="059f2c37-01da-491e-995d-91e36be3f3c5"/>
+				<reportElement x="-13" y="64" width="100" height="14" uuid="059f2c37-01da-491e-995d-91e36be3f3c5"/>
 				<text><![CDATA[Invoice No   :]]></text>
 			</staticText>
 			<textField pattern="HH:mm">
-				<reportElement x="131" y="65" width="60" height="30" uuid="ebf33318-beb6-420c-9cdd-a60d7718844b"/>
+				<reportElement x="131" y="81" width="60" height="30" uuid="ebf33318-beb6-420c-9cdd-a60d7718844b"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="53" y="48" width="93" height="17" uuid="b434e82f-7534-4a72-b4b9-e3a42278c539"/>
+				<reportElement x="53" y="64" width="93" height="17" uuid="b434e82f-7534-4a72-b4b9-e3a42278c539"/>
 				<textFieldExpression><![CDATA[$P{order_Id}]]></textFieldExpression>
 			</textField>
 			<staticText>

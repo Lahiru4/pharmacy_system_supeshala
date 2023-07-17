@@ -12,7 +12,7 @@
    <children>
       <AnchorPane fx:id="loadFormContext" prefHeight="760.0" prefWidth="1366.0" stylesheets="@assests/styles/Dashboard.css">
          <children>
-            <JFXButton fx:id="sales" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="85.0" onAction="#salesOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Sales">
+            <JFXButton fx:id="sales" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="232.0" onAction="#salesOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Sales">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -31,19 +31,7 @@
                </cursor>
             </JFXButton>
             <AnchorPane fx:id="home" layoutX="150.0" prefHeight="760.0" prefWidth="1213.0" />
-            <JFXButton fx:id="logOutBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="47.0" layoutY="672.0" onAction="#logOutBtnOn" prefHeight="50.0" prefWidth="50.0" styleClass="orderBtn2" text="EXT">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@assests/images/icons8-sign-out-64.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-            <JFXButton fx:id="stock" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="229.0" onAction="#stockOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Stock">
+            <JFXButton fx:id="stock" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="360.0" onAction="#stockOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Stock">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -58,7 +46,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="setting" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="531.0" onAction="#settingsOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Emplyee">
+            <JFXButton fx:id="setting" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="616.0" onAction="#settingsOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Emplyee">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -73,7 +61,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="employ" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="375.0" onAction="#employOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Orders">
+            <JFXButton fx:id="employ" buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="487.0" onAction="#employOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Orders">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -88,11 +76,26 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <Label fx:id="username" alignment="CENTER" layoutX="9.0" layoutY="33.0" prefHeight="21.0" prefWidth="126.0" text="User Name">
+            <Label fx:id="username" alignment="CENTER" layoutX="9.0" layoutY="39.0" prefHeight="21.0" prefWidth="126.0" text="User Name">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
+            <JFXButton buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="115.0" onAction="#homePageOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Home">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assests/images/icons8-home-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>

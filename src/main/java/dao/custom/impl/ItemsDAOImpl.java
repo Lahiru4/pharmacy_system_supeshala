@@ -164,4 +164,20 @@ public class ItemsDAOImpl implements ItemsDAO {
         }
         return null;
     }
+
+    @Override
+    public int getStockCount() {
+        int count = 0;
+        try {
+            String sql = "SELECT COUNT(*) AS stockCount FROM items";
+            ResultSet resultSet = CrudUtil.execute(sql);
+            if (resultSet.next()) {
+                count = resultSet.getInt("stockCount");
+            }
+            resultSet.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 }

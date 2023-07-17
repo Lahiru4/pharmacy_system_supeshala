@@ -17,4 +17,6 @@ public interface ItemsDAO extends CrudDAO<ItemsDTO> {
     public String generateNewID(int newNum) throws SQLException, ClassNotFoundException;
     public ArrayList<ItemsDTO> yetStockId_getAll(String stock_id) throws SQLException, ClassNotFoundException;
     public ItemsDTO yetCodeGetAll(String code) throws SQLException, ClassNotFoundException;
+
+    int getStockCount();
 }

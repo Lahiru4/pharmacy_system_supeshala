@@ -35,7 +35,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <Label alignment="CENTER" layoutX="80.0" layoutY="469.0" prefHeight="21.0" prefWidth="271.0" text="Don not Have Account.Go to Register">
+      <Label alignment="CENTER" layoutX="80.0" layoutY="469.0" onMouseClicked="#regeshtarOnAction" prefHeight="21.0" prefWidth="271.0" text="Don not Have Account.Go to Register">
          <font>
             <Font size="15.0" />
          </font>

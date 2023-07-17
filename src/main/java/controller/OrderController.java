@@ -12,6 +12,7 @@ import dao.custom.impl.OrderDetailsDAOImpl;
 import db.DbConnection;
 import dto.ItemsDTO;
 import dto.OrdersDTO;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -30,10 +31,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class OrderController implements Initializable {
     public TableView<OrderTM> order;
+    public DatePicker select_date;
+    public Label order_count;
     @FXML
     private TableColumn<?, ?> id;
 
@@ -55,14 +59,19 @@ public class OrderController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        select_date.setValue(LocalDate.now());
         id.setCellValueFactory(new PropertyValueFactory<>("orderId"));
         totQty.setCellValueFactory(new PropertyValueFactory<>("totalQuantity"));
         totAmount.setCellValueFactory(new PropertyValueFactory<>("itemCost"));
         profit.setCellValueFactory(new PropertyValueFactory<>("profit"));
         date.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
         action.setCellValueFactory(new PropertyValueFactory<>("button"));
-        lodeTableData();
+        setTableDataSub();
+        setCount();
+    }
+
+    private void setCount() {
+        order_count.setText(order.getItems().size()+"");
     }
 
     private void lodeTableData() {
@@ -90,28 +99,23 @@ public class OrderController implements Initializable {
     private void setRemoveBtnOnAction(JFXButton button, OrdersDTO ordersDTO) {
         //
         button.setOnAction((actionEvent -> {
-            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            Optional<ButtonType> buttonType = new Alert(Alert.AlertType.INFORMATION, "Are you sure to print ?", yes, no).showAndWait();
-
-            if (buttonType.orElse(no) == yes) {
-                OrderDrtailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
-                try {
-                    String itemsCount = orderDetailsDAO.getItemsCount(ordersDTO.getOrderId());
-                    printBill(ordersDTO.getOrderId(),Integer.parseInt(itemsCount),this.getClass().getResourceAsStream("/report2/re_printBill.jrxml"));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+            OrderDrtailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+            try {
+                String itemsCount = orderDetailsDAO.getItemsCount(ordersDTO.getOrderId());
+                printBill(ordersDTO.getOrderId(), Integer.parseInt(itemsCount), this.getClass().getResourceAsStream("/report2/re_printBill.jrxml"));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }));
 
 
         //
     }
-    private void printBill(String orderId,int count,InputStream resourceAsStream) {
+
+    private void printBill(String orderId, int count, InputStream resourceAsStream) {
 
         try {
             Connection connection = connection = DbConnection.getInstance().getConnection();
@@ -132,7 +136,7 @@ public class OrderController implements Initializable {
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, resultSetDataSource);
 
             net.sf.jasperreports.view.JasperViewer.viewReport(jasperPrint, false);
-            JasperPrintManager.printReport(jasperPrint,true);
+            JasperPrintManager.printReport(jasperPrint, true);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,7 +177,32 @@ public class OrderController implements Initializable {
                 e.printStackTrace();
             }
         }
+    }
+    public void setTableDataSub(){
+        try {
+            order.getItems().removeAll(order.getItems());
+            for (OrdersDTO ordersDTO : orderDAO.yetDateGetAll(select_date.getValue()+"")) {
+                Image img = new Image("view/assests/images/icons8-print-48.png");
+                ImageView imageView = new ImageView(img);
+                imageView.setFitHeight(30);
+                imageView.setPreserveRatio(true);
+                JFXButton button = new JFXButton();
+                button.setGraphic(imageView);
+                setRemoveBtnOnAction(button, ordersDTO);
+                order.getItems().add(new OrderTM(ordersDTO.getOrderId(), ordersDTO.getTotalQuantity(), ordersDTO.getOrderDate()
+                        , ordersDTO.getItemCost(), ordersDTO.getProfit(), button));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            setCount();
+        }
+    }
 
+    public void selectDataOnAction(ActionEvent actionEvent) {
+        setTableDataSub();
     }
 }

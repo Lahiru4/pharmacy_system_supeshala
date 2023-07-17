@@ -164,7 +164,7 @@ public class StockController {
         Thread thread = new Thread() {
             @SneakyThrows
             public void run() {
-                String sql = "select * from items";
+                /*String sql = "select * from items";
                 JasperDesign jasdi = JRXmlLoader.load(this.getClass().getResourceAsStream("/report/thirakasuwasewastock.jrxml"));
                 JRDesignQuery newQuery = new JRDesignQuery();
                 newQuery.setText(sql);
@@ -172,7 +172,7 @@ public class StockController {
                 JasperReport js = JasperCompileManager.compileReport(jasdi);
                 JasperPrint jp = JasperFillManager.fillReport(js, null, DbConnection.getInstance().getConnection());
                 JasperViewer viewer = new JasperViewer(jp, false);
-                viewer.show();
+                viewer.show();*/
             }
         };
         thread.start();

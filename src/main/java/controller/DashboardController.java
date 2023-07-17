@@ -2,6 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import controller.cashier.CashierController;
+import controller.home.HomeController;
 import controller.stock.StockController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -52,11 +53,6 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
-    void logOutBtnOn(ActionEvent event) throws IOException {
-
-    }
-
-    @FXML
     void salesOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/cashier/Cashier.fxml"));
         Node resource = fxmlLoader.load();
@@ -65,10 +61,15 @@ public class DashboardController implements Initializable {
         home.getChildren().add(resource);
         controller.cashier_name = this.cashier_name;
         controller.searchTexfeld.requestFocus();
+
     }
 
     @FXML
-    void settingsOnAction(ActionEvent event) {
+    void settingsOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/emloyee/employ.fxml"));
+        Node resource = fxmlLoader.load();
+        home.getChildren().clear();
+        home.getChildren().add(resource);
 
     }
 
@@ -80,6 +81,7 @@ public class DashboardController implements Initializable {
         home.getChildren().add(resource);
         StockController controller = fxmlLoader.getController();
     }
+
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -87,12 +89,18 @@ public class DashboardController implements Initializable {
     }
 
     private void lodeMethode() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/cashier/Cashier.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/home/home.fxml"));
         Node resource = fxmlLoader.load();
-        CashierController controller = fxmlLoader.getController();
+        HomeController controller = fxmlLoader.getController();
         home.getChildren().clear();
         home.getChildren().add(resource);
-        controller.cashier_name = this.cashier_name;
-        controller.searchTexfeld.requestFocus();
+    }
+
+    public void homePageOnAction(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/home/home.fxml"));
+        Node resource = fxmlLoader.load();
+        HomeController controller = fxmlLoader.getController();
+        home.getChildren().clear();
+        home.getChildren().add(resource);
     }
 }

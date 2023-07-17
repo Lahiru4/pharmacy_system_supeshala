@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.controlsfx.control.Notifications;
-import tdm.BillItemTM;
 import tdm.BillTable2;
 import tdm.ItemsTM;
 
@@ -134,15 +133,16 @@ public class CashierController {
         for (int i = 0; i < billTable.getItems().size(); i++) {
             if (billTable.getItems().get(i).getItemCode().equals(items.getItemCode())) {
                 billTable.getItems().get(i).setQty(billTable.getItems().get(i).getQty() + qty);
-                billTable.getItems().get(i).setNet_tot(billTable.getItems().get(i).getNet_tot()+(billTable.getItems().get(i).getSelling_price()*qty));
+                billTable.getItems().get(i).setNet_tot(billTable.getItems().get(i).getNet_tot() + (billTable.getItems().get(i).getSelling_price() * qty));
                 billTable.refresh();
                 setTot(items.getSelling_price(), qty);
                 return;
             }
         }
-        billTable.getItems().add(new BillTable2(items.getDescription(), qty, items.getSelling_price(), items.getItemCode(), items.getPurchase_price(),items.getSelling_price()*qty));
+        billTable.getItems().add(new BillTable2(items.getDescription(), qty, items.getSelling_price(), items.getItemCode(), items.getPurchase_price(), items.getSelling_price() * qty));
         setTot(items.getSelling_price(), qty);
     }
+
     private void setTot(double sellingPrice, int qty) {
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         double cost = sellingPrice * qty;
@@ -152,6 +152,7 @@ public class CashierController {
         tot.setText(format);
         grossTot.setText(format + "");
     }
+
     @FXML
     void billDelectOnAction(MouseEvent event) throws IOException {
         BillTable2 selectedItem = billTable.getSelectionModel().getSelectedItem();
@@ -167,10 +168,12 @@ public class CashierController {
         stage.centerOnScreen();
         stage.show();
     }
+
     @FXML
     void onKeyPressed(KeyEvent event) {
         System.out.println(event.getText());
     }
+
     @FXML
     void payOnAction(ActionEvent event) {
         // save Orders
@@ -341,6 +344,7 @@ public class CashierController {
             balance.requestFocus();
         } else new Alert(Alert.AlertType.ERROR, "check cash Amount").show();
     }
+
     public void balanceOnAction(ActionEvent actionEvent) {
         // save Orders
         boolean velid = velid();
@@ -434,14 +438,12 @@ public class CashierController {
             totQty += qty;
 
             //totProfit
-            profit = temp.getSelling_price() - temp.getPurchase_price();
+            profit += (temp.getSelling_price() - temp.getPurchase_price())*qty;
         }
-        if (discount.getText() == "") {
-            if (Double.parseDouble(discount.getText()) > 0) {
-                double dis = Double.parseDouble(discount.getText());
-                double v = (profit / 100) * dis;
-                profit = profit - v;
-            }
+        if (Double.parseDouble(discount.getText()) > 0) {
+            double dis = Double.parseDouble(discount.getText());
+            double v = (profit / 100) * dis;
+            profit = profit - v;
         }
         return new OrdersDTO(generateNewOrderId(), totQty, LocalDate.now() + "", Double.parseDouble(itemCost), profit);
     }

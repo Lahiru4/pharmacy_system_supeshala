@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -107,5 +108,14 @@ public class LoginFormController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void regeshtarOnAction(MouseEvent mouseEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/emloyee/add_emplyee.fxml"));
+        Parent parent = fxmlLoader.load();
+        stage.setScene(new Scene(parent));
+        stage.centerOnScreen();
+        stage.show();
     }
 }

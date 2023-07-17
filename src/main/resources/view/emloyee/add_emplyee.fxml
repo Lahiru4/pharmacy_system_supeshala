@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="421.0" prefWidth="600.0" stylesheets="@../assests/styles/Stock.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.emloyee.AddEmplyeeController">
+   <children>
+      <JFXButton fx:id="saveBtn" buttonType="RAISED" layoutX="446.0" layoutY="363.0" onAction="#save" prefHeight="34.0" prefWidth="126.0" styleClass="addItems" text="Save">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/images/icons8-ok-48.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <TextField fx:id="id" layoutX="195.0" layoutY="139.0" prefHeight="33.0" prefWidth="373.0" stylesheets="@../assests/styles/texfelds.css">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="number" layoutX="196.0" layoutY="303.0" prefHeight="33.0" prefWidth="373.0" stylesheets="@../assests/styles/texfelds.css">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="name" layoutX="195.0" layoutY="220.0" prefHeight="33.0" prefWidth="373.0" stylesheets="@../assests/styles/texfelds.css">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="40.0" layoutY="143.0" prefHeight="25.0" prefWidth="162.0" style="-fx-font-weight: bold; -fx-font-size: 16;" text="ID                            :" />
+      <Label layoutX="40.0" layoutY="224.0" style="-fx-font-weight: bold; -fx-font-size: 16;" text="Name                      :" />
+      <Label layoutX="37.0" layoutY="307.0" style="-fx-font-weight: bold; -fx-font-size: 16;" text="Phone Number       :" />
+      <ImageView fitHeight="83.0" fitWidth="81.0" layoutX="260.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assests/images/icons8-supplier-48.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
