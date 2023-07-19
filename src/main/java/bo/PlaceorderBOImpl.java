@@ -1,8 +1,10 @@
 package bo;
 
+import dao.custom.DayOrderCountDAO;
 import dao.custom.ItemsDAO;
 import dao.custom.OrderDAO;
 import dao.custom.OrderDrtailsDAO;
+import dao.custom.impl.DayOrderCountDAOImpl;
 import dao.custom.impl.ItemsDAOImpl;
 import dao.custom.impl.OrderDAOImpl;
 import dao.custom.impl.OrderDetailsDAOImpl;
@@ -16,6 +18,7 @@ import tdm.BillTable2;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class PlaceorderBOImpl implements PlaceorderBO {
@@ -51,12 +54,21 @@ public class PlaceorderBOImpl implements PlaceorderBO {
             int OldItemQty = Integer.parseInt(itemsDAO.getOldItemQty(temp));
             int newItemQty = OldItemQty - temp.getQty();
             boolean updateQtyOnlyOPT = itemsDAO.updateQtyOnly(temp.getItemCode(), newItemQty);
-
             if (!updateQtyOnlyOPT) {
                 connection.rollback();
                 connection.setAutoCommit(true);
                 return false;
             }
+            DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
+            String newID = dayOrderCountDAO.generateNewID(LocalDate.now().toString());
+            boolean add1 = dayOrderCountDAO.add(newID, LocalDate.now().toString(), ordersDTO.getOrderId());
+            if (!add1) {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+
+
         }
         connection.commit();
         connection.setAutoCommit(true);
@@ -69,6 +81,14 @@ public class PlaceorderBOImpl implements PlaceorderBO {
         boolean check_opt = orderDAO.exist(ordersDTO.getOrderId());
         connection.setAutoCommit(false);
         if (check_opt) {
+            DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
+            boolean delete1 = dayOrderCountDAO.delete(ordersDTO.getOrderId());
+            if (!delete1) {
+                System.out.println("fuck new id");
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
             for (ItemsDTO temp : items) {
                 BillTable2 billItemTM = new BillTable2(temp.getItemDescription(), temp.getQty(), temp.getSellingPrice(),
                         temp.getItemCode(), temp.getPurchasePrice(),temp.getSellingPrice()* temp.getQty());
@@ -99,9 +119,7 @@ public class PlaceorderBOImpl implements PlaceorderBO {
                     return false;
                 }
             }
-
         }
-
         connection.commit();
         connection.setAutoCommit(true);
         return true;

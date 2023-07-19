@@ -3,8 +3,10 @@ package controller.cashier;
 import bo.PlaceorderBO;
 import bo.PlaceorderBOImpl;
 import com.jfoenix.controls.JFXButton;
+import dao.custom.DayOrderCountDAO;
 import dao.custom.ItemsDAO;
 import dao.custom.OrderDAO;
+import dao.custom.impl.DayOrderCountDAOImpl;
 import dao.custom.impl.ItemsDAOImpl;
 import dao.custom.impl.OrderDAOImpl;
 import db.DbConnection;
@@ -201,6 +203,8 @@ public class CashierController {
                     textClear();
                     billTable.getItems().clear();
                     billTable.refresh();
+
+
                     order_id_lbl.setText(generateNewOrderId());
                     lodeTableData();
                 }
@@ -216,7 +220,17 @@ public class CashierController {
     public void initialize() {
         lodeTableData();
         setSearchFilter();
-        order_id_lbl.setText(generateNewOrderId());
+        DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
+        String newID = null;
+        try {
+            newID = dayOrderCountDAO.generateNewID(LocalDate.now().toString());
+            order_id_lbl.setText(newID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void lodeTableData() {
@@ -371,7 +385,10 @@ public class CashierController {
                     textClear();
                     billTable.getItems().clear();
                     billTable.refresh();
-                    order_id_lbl.setText(generateNewOrderId());
+                    //
+                    DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
+                    String newID = dayOrderCountDAO.generateNewID(LocalDate.now().toString());
+                    order_id_lbl.setText(newID);
                     lodeTableData();
 
                 }

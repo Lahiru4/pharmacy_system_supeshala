@@ -1,20 +1,25 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import controller.cashier.CashierController;
 import controller.home.HomeController;
 import controller.stock.StockController;
+import dao.custom.EmployeeDAO;
+import dao.custom.impl.EmployeeDAOImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
@@ -40,7 +45,7 @@ public class DashboardController implements Initializable {
     private JFXButton employ;
 
     @FXML
-    public Label username;
+    public JFXTextField username;
     public String cashier_name;
 
     @FXML
@@ -59,7 +64,9 @@ public class DashboardController implements Initializable {
         CashierController controller = fxmlLoader.getController();
         home.getChildren().clear();
         home.getChildren().add(resource);
-        controller.cashier_name = this.cashier_name;
+        if (username.getText().length()>0) {
+            controller.cashier_name = this.username.getText();
+        }
         controller.searchTexfeld.requestFocus();
 
     }
@@ -102,5 +109,25 @@ public class DashboardController implements Initializable {
         HomeController controller = fxmlLoader.getController();
         home.getChildren().clear();
         home.getChildren().add(resource);
+    }
+
+    public void setNameOnAction(ActionEvent actionEvent) {
+        String text = username.getText();
+        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+        try {
+            boolean exist = employeeDAO.exist(username.getText());
+            if (exist) {
+                String employeeName = employeeDAO.getEmployeeName(username.getText());
+                username.clear();
+                username.setText(employeeName);
+            }else {
+                new Alert(Alert.AlertType.ERROR,"not user").show();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }

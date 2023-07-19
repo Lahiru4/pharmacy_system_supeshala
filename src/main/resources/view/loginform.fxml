@@ -4,7 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,11 +21,6 @@
             <Image url="@assests/images/icons8-lock%20(1).gif" />
          </image>
       </ImageView>
-      <TextField fx:id="userName" layoutX="86.0" layoutY="242.0" onAction="#userNameOnAction" prefHeight="25.0" prefWidth="260.0" promptText="user Name" stylesheets="@assests/styles/texfelds.css">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </TextField>
       <JFXButton buttonType="RAISED" layoutX="160.0" layoutY="379.0" onAction="#logInOnAction" prefHeight="31.0" prefWidth="111.0" style="-fx-background-color: #50ee50;" text="Log in">
          <font>
             <Font size="15.0" />
@@ -43,7 +37,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
-      <PasswordField fx:id="password" layoutX="86.0" layoutY="316.0" onAction="#passwordOnAction" prefHeight="25.0" prefWidth="260.0" promptText="password" stylesheets="@assests/styles/texfelds.css">
+      <PasswordField fx:id="password" layoutX="86.0" layoutY="291.0" onAction="#passwordOnAction" prefHeight="25.0" prefWidth="260.0" promptText="User ID" stylesheets="@assests/styles/texfelds.css">
          <font>
             <Font size="15.0" />
          </font>

@@ -28,37 +28,26 @@ public class LoginFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        password.requestFocus();
     }
 
     public void logInOnAction(ActionEvent actionEvent) {
         try {
-            boolean exist = employeeDAO.exist(userName.getText());
+            boolean exist = employeeDAO.exist(password.getText());
             if (!exist) {
                 new Alert(Alert.AlertType.ERROR, "NOT USER !").show();
-                userName.setStyle("-fx-border-color: red");
-                userName.requestFocus();
-                return;
-            }
-            String employeeID = employeeDAO.getEmployeeID(userName.getText());
-            if (!employeeID.equals(password.getText())) {
-                new Alert(Alert.AlertType.ERROR, "invalid password !").show();
                 password.setStyle("-fx-border-color: red");
                 password.requestFocus();
                 return;
             }
-
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Dashboard.fxml"));
             Parent parent = fxmlLoader.load();
             DashboardController controller = fxmlLoader.getController();
-            controller.username.setText(userName.getText());
-            controller.cashier_name=userName.getText();
             stage.setScene(new Scene(parent));
             stage.centerOnScreen();
             stage.show();
-
             password.getScene().getWindow().hide();
-
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -69,22 +58,11 @@ public class LoginFormController implements Initializable {
 
     }
 
-    public void userNameOnAction(ActionEvent actionEvent) {
-        password.requestFocus();
-    }
-
     public void passwordOnAction(ActionEvent actionEvent) {
         try {
-            boolean exist = employeeDAO.exist(userName.getText());
+            boolean exist = employeeDAO.exist(password.getText());
             if (!exist) {
                 new Alert(Alert.AlertType.ERROR, "NOT USER !").show();
-                userName.setStyle("-fx-border-color: red");
-                userName.requestFocus();
-                return;
-            }
-            String employeeID = employeeDAO.getEmployeeID(userName.getText());
-            if (!employeeID.equals(password.getText())) {
-                new Alert(Alert.AlertType.ERROR, "invalid password !").show();
                 password.setStyle("-fx-border-color: red");
                 password.requestFocus();
                 return;
@@ -93,14 +71,10 @@ public class LoginFormController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Dashboard.fxml"));
             Parent parent = fxmlLoader.load();
             DashboardController controller = fxmlLoader.getController();
-            controller.username.setText(userName.getText());
-            controller.cashier_name=userName.getText();
             stage.setScene(new Scene(parent));
             stage.centerOnScreen();
             stage.show();
-
             password.getScene().getWindow().hide();
-
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

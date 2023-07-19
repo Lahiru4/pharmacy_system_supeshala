@@ -13,4 +13,6 @@ public class OrderTM {
     private double itemCost;
     private double profit;
     private JFXButton button;
+    private String id;
+
 }

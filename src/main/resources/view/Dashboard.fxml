@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -76,11 +76,6 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <Label fx:id="username" alignment="CENTER" layoutX="9.0" layoutY="39.0" prefHeight="21.0" prefWidth="126.0" text="User Name">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
             <JFXButton buttonType="RAISED" contentDisplay="TOP" ellipsisString="" layoutX="32.0" layoutY="115.0" onAction="#homePageOnAction" prefHeight="80.0" prefWidth="80.0" styleClass="orderBtn2" text="Home">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -96,6 +91,11 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
+            <JFXTextField fx:id="username" alignment="CENTER" layoutX="2.0" layoutY="42.0" onAction="#setNameOnAction" prefHeight="25.0" prefWidth="146.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXTextField>
          </children>
       </AnchorPane>
    </children>

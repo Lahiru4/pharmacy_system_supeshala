@@ -12,13 +12,12 @@ import java.util.ArrayList;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
-    public String getEmployeeID(String employeeName) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT employee_id FROM employee WHERE name = ?";
-
+    public String getEmployeeName(String employeeName) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT name FROM employee WHERE employee_id = ?";
         try {
             ResultSet resultSet = CrudUtil.execute(sql, employeeName);
             if (resultSet.next()) {
-                return resultSet.getString("employee_id");
+                return resultSet.getString("name");
             }
             return null;
         } catch (SQLException | ClassNotFoundException e) {
@@ -78,9 +77,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public boolean exist(String name) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT COUNT(*) FROM employee WHERE name = ?";
-        ResultSet resultSet = CrudUtil.execute(sql, name);
+    public boolean exist(String id) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT COUNT(*) FROM employee WHERE employee_id = ?";
+        ResultSet resultSet = CrudUtil.execute(sql, id);
         if (resultSet.next()) {
             int count = resultSet.getInt(1);
             return count > 0;

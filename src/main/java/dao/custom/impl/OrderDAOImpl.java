@@ -46,7 +46,6 @@ public class OrderDAOImpl implements OrderDAO {
         ResultSet resultSet = CrudUtil.execute(sql, id);
         return resultSet.next();
     }
-
     @Override
     public String generateNewID() throws SQLException, ClassNotFoundException {
         String sql = "SELECT MAX(CAST(SUBSTRING(order_Id, 4) AS UNSIGNED)) AS max_id_number FROM orders";

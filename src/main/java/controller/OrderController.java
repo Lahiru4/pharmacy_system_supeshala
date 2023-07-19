@@ -3,9 +3,11 @@ package controller;
 import bo.PlaceorderBO;
 import bo.PlaceorderBOImpl;
 import com.jfoenix.controls.JFXButton;
+import dao.custom.DayOrderCountDAO;
 import dao.custom.ItemsDAO;
 import dao.custom.OrderDAO;
 import dao.custom.OrderDrtailsDAO;
+import dao.custom.impl.DayOrderCountDAOImpl;
 import dao.custom.impl.ItemsDAOImpl;
 import dao.custom.impl.OrderDAOImpl;
 import dao.custom.impl.OrderDetailsDAOImpl;
@@ -60,7 +62,7 @@ public class OrderController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         select_date.setValue(LocalDate.now());
-        id.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
         totQty.setCellValueFactory(new PropertyValueFactory<>("totalQuantity"));
         totAmount.setCellValueFactory(new PropertyValueFactory<>("itemCost"));
         profit.setCellValueFactory(new PropertyValueFactory<>("profit"));
@@ -74,7 +76,7 @@ public class OrderController implements Initializable {
         order_count.setText(order.getItems().size()+"");
     }
 
-    private void lodeTableData() {
+    /*private void lodeTableData() {
         try {
             order.getItems().removeAll(order.getItems());
             for (OrdersDTO ordersDTO : orderDAO.getAll()) {
@@ -85,6 +87,9 @@ public class OrderController implements Initializable {
                 JFXButton button = new JFXButton();
                 button.setGraphic(imageView);
                 setRemoveBtnOnAction(button, ordersDTO);
+
+                //
+
                 order.getItems().add(new OrderTM(ordersDTO.getOrderId(), ordersDTO.getTotalQuantity(), ordersDTO.getOrderDate()
                         , ordersDTO.getItemCost(), ordersDTO.getProfit(), button));
             }
@@ -95,7 +100,7 @@ public class OrderController implements Initializable {
             e.printStackTrace();
         }
     }
-
+*/
     private void setRemoveBtnOnAction(JFXButton button, OrdersDTO ordersDTO) {
         //
         button.setOnAction((actionEvent -> {
@@ -169,7 +174,7 @@ public class OrderController implements Initializable {
                 boolean b = placeorderBO.returnOrder(selectedItem, itemsDTOS);
                 if (b) {
                     new Alert(Alert.AlertType.INFORMATION, "okay").show();
-                    lodeTableData();
+                    setTableDataSub();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -189,8 +194,18 @@ public class OrderController implements Initializable {
                 JFXButton button = new JFXButton();
                 button.setGraphic(imageView);
                 setRemoveBtnOnAction(button, ordersDTO);
+
+
+                DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
+                String s = dayOrderCountDAO.geAll(ordersDTO.getOrderId());
+                String Id=ordersDTO.getOrderId();
+                if (!s.equals("0")) {
+                    Id=Id+"( "+s+" )";
+                }
+
+
                 order.getItems().add(new OrderTM(ordersDTO.getOrderId(), ordersDTO.getTotalQuantity(), ordersDTO.getOrderDate()
-                        , ordersDTO.getItemCost(), ordersDTO.getProfit(), button));
+                        , ordersDTO.getItemCost(), ordersDTO.getProfit(), button,Id));
             }
 
         } catch (SQLException e) {
