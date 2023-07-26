@@ -3,6 +3,7 @@ package controller.stock;
 import bo.SaveStockDO;
 import bo.SaveStockDOImpl;
 import com.jfoenix.controls.JFXButton;
+import controller.cashier.CashierController;
 import dao.custom.ItemsDAO;
 import dao.custom.StockDAO;
 import dao.custom.SupplyerDAO;
@@ -57,6 +58,7 @@ public class AddInventoryController {
     public ItemsController item_con;
     public Label packLbl;
     public TextField pack;
+    public CashierController cashierController;
     @FXML
     private ComboBox<String> importer;
 
@@ -167,7 +169,17 @@ public class AddInventoryController {
                                 .darkStyle()
                                 .show();
                         checkSave = false;
-                        stockController.lodeTableData();
+                        if (stockController!=null) {
+                            stockController.lodeTableData();
+                        }
+                        if (cashierController!=null) {
+                            cashierController.showTable.getItems().remove(cashierController.showTable.getItems());
+                            cashierController.showTable.refresh();
+                            cashierController.lodeTableData();
+                            cashierController.searchTexfeld.requestFocus();
+                            addBtn.getScene().getWindow().hide();
+                            cashierController.setSearchFilter();
+                        }
                         lists.getItems().removeAll(lists.getItems());
                         setStockId();
                         setItemCode();

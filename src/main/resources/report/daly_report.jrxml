@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="samadhiDalyReport" pageWidth="226" pageHeight="300" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5633bb3a-a6a6-4b5f-a1c1-69bab2eab8a1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (10)"/>
+	<parameter name="cash_amount" class="java.lang.Double"/>
+	<parameter name="tot" class="java.lang.Double"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+    SUM(tot_qty) AS tot_qty_Grand_total,
+    SUM(item_cost) AS item_cost_Grand_total,
+    COUNT(*) AS orderCount,
+    order_date
+FROM 
+    orders where order_date='2023-07-19';]]>
+	</queryString>
+	<field name="tot_qty_Grand_total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="tot_qty_Grand_total"/>
+		<property name="com.jaspersoft.studio.field.label" value="tot_qty_Grand_total"/>
+	</field>
+	<field name="item_cost_Grand_total" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="item_cost_Grand_total"/>
+		<property name="com.jaspersoft.studio.field.label" value="item_cost_Grand_total"/>
+	</field>
+	<field name="orderCount" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="orderCount"/>
+		<property name="com.jaspersoft.studio.field.label" value="orderCount"/>
+	</field>
+	<field name="order_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="97" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="0" width="150" height="30" uuid="aa33e43a-16f4-44f5-9744-aa3dbd61eec9"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Samadhi Pharmacy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="23" width="100" height="30" uuid="ab2764bc-7599-40b3-9e16-6e5e0f12b0b7"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Daliy Report]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="38" y="50" width="100" height="17" uuid="58d3f415-1fa7-4994-8e80-f64e1d99ea79"/>
+				<textElement textAlignment="Center">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{order_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="163" splitType="Stretch">
+			<textField>
+				<reportElement x="83" y="20" width="146" height="30" uuid="9d6172fd-123b-42b8-b598-dc1a17edf7ae"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tot_qty_Grand_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="58" width="146" height="30" uuid="d9665d57-8214-4dea-a9e2-854616a10559"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_cost_Grand_total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-9" y="20" width="122" height="30" uuid="9ec93413-464c-438b-bbe6-79c1bb6dbefc"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[QTY Total   :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-7" y="57" width="153" height="30" uuid="5c9e0876-2d93-474d-a479-b826d6eb18fc"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order Amount  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-7" y="-15" width="121" height="30" uuid="d9ee9000-a986-4828-8a5f-6f5df1f4a197"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order          :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="85" y="-13" width="100" height="30" uuid="40e97e88-242e-4adf-98e1-032bdc066529"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="94" width="110" height="30" uuid="149c64f0-a699-4357-9bbe-bcf896536e3c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cash_amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-9" y="94" width="122" height="30" uuid="76fa069e-5c2d-46c1-bbba-114b22b59fed"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cashier Amount :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-8" y="126" width="122" height="30" uuid="954f2203-f68d-408c-b87b-4e7597f1d630"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total    :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="70" y="127" width="100" height="30" uuid="40270b98-baa4-47b1-8d30-34b6c6d71233"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tot}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

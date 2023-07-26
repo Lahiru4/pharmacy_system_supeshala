@@ -7,13 +7,15 @@ import dto.EmployeeDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class AddEmplyeeController {
 
 
+    public ImageView delete;
     private EmployController employController;
     public JFXButton saveBtn;
     @FXML
@@ -24,13 +26,14 @@ public class AddEmplyeeController {
 
     @FXML
     private TextField name;
-    public EmployeeDAO employeeDAO=new EmployeeDAOImpl();
+    public EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+
     public void setEmployController(EmployController employController) {
         this.employController = employController;
     }
 
     public void save(ActionEvent actionEvent) {
-        EmployeeDTO employeeDTO=getData();
+        EmployeeDTO employeeDTO = getData();
         if (saveBtn.getText().equals("Update")) {
             try {
                 boolean update = employeeDAO.update(employeeDTO);
@@ -45,7 +48,7 @@ public class AddEmplyeeController {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             try {
                 boolean add = employeeDAO.add(employeeDTO);
                 if (add) {
@@ -65,11 +68,28 @@ public class AddEmplyeeController {
     }
 
     private EmployeeDTO getData() {
-        return new EmployeeDTO(id.getText(),name.getText(),number.getText(),null,null);
+        return new EmployeeDTO(id.getText(), name.getText(), number.getText(), null, null);
     }
+
     public void setOldData(EmployeeDTO selectedItem) {
         id.setText(selectedItem.getId());
         name.setText(selectedItem.getName());
         number.setText(selectedItem.getPhone());
+    }
+
+    public void deleteOnAction(MouseEvent mouseEvent) {
+        try {
+            boolean delete = employeeDAO.delete(id.getText());
+            if (delete) {
+                employController.table.getItems().clear();
+                employController.table.refresh();
+                employController.setTableData();
+                id.getScene().getWindow().hide();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

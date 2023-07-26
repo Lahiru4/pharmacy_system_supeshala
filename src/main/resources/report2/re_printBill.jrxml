@@ -14,8 +14,13 @@
 	<parameter name="order_Id" class="java.lang.String"/>
 	<parameter name="item_count" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[select od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date from orderdetails od inner join orders o ON od.order_id=o.order_id where o.order_id=$P{order_Id}]]>
+		<![CDATA[select od.order_Id,od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date,c.number from orderdetails od inner join orders o ON od.order_id=o.order_id inner join day_ordercount c ON c.or_id=o.order_Id where o.order_id = 'ORD081';]]>
 	</queryString>
+	<field name="order_Id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="order_Id"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_Id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orderdetails"/>
+	</field>
 	<field name="name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="name"/>
 		<property name="com.jaspersoft.studio.field.label" value="name"/>
@@ -45,6 +50,11 @@
 		<property name="com.jaspersoft.studio.field.name" value="order_date"/>
 		<property name="com.jaspersoft.studio.field.label" value="order_date"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="number"/>
+		<property name="com.jaspersoft.studio.field.label" value="number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="day_ordercount"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -90,6 +100,10 @@ Godagama,Homagama]]></text>
 				</textElement>
 				<text><![CDATA[Tel :0741244700]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="112" y="49" width="100" height="30" uuid="ef056a38-7d2b-416a-b365-8c9bfe968efe"/>
+				<textFieldExpression><![CDATA[$F{number}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
@@ -152,9 +166,10 @@ Godagama,Homagama]]></text>
 				<textFieldExpression><![CDATA[$F{selling_price}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="135" y="10" width="60" height="14" uuid="ff848599-a6fb-413f-8a34-0405eee77273">
+				<reportElement x="114" y="10" width="60" height="14" uuid="ff848599-a6fb-413f-8a34-0405eee77273">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fc53c226-61fa-4628-818f-cf6cf24f2359"/>
 				</reportElement>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{net_tot}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -174,13 +189,14 @@ Godagama,Homagama]]></text>
 	<pageFooter>
 		<band height="114" splitType="Stretch">
 			<staticText>
-				<reportElement x="72" y="15" width="60" height="20" uuid="f14c98e1-1f04-4dd3-9554-22915c4d3ab1">
+				<reportElement x="57" y="15" width="60" height="20" uuid="f14c98e1-1f04-4dd3-9554-22915c4d3ab1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="066ec887-191f-4ae7-be3e-9760960fbedb"/>
 				</reportElement>
 				<text><![CDATA[Grand Total]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="134" y="15" width="66" height="20" uuid="b715f6c0-e439-4c5d-98d1-6f69635c71fb"/>
+				<reportElement x="109" y="15" width="66" height="20" uuid="b715f6c0-e439-4c5d-98d1-6f69635c71fb"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{item_cost}]]></textFieldExpression>
 			</textField>
 			<line>
@@ -197,11 +213,12 @@ Godagama,Homagama]]></text>
 				<text><![CDATA[POS SYSTEM 0787969637]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="135" y="36" width="69" height="20" uuid="7b4e8973-9843-4d33-b74a-24a157854965"/>
+				<reportElement x="106" y="36" width="69" height="20" uuid="7b4e8973-9843-4d33-b74a-24a157854965"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$P{item_count}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="55" y="36" width="77" height="16" uuid="b30f95b8-1e4c-4ee9-9716-e5abb81733fd"/>
+				<reportElement x="34" y="35" width="77" height="16" uuid="b30f95b8-1e4c-4ee9-9716-e5abb81733fd"/>
 				<text><![CDATA[No of Items Sold]]></text>
 			</staticText>
 			<staticText>

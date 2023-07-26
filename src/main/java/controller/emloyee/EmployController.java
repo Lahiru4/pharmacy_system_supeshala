@@ -80,6 +80,7 @@ public class EmployController implements Initializable {
         controller.setEmployController(this);
         controller.saveBtn.setText("Update");
         controller.id.setEditable(false);
+        controller.delete.setVisible(true);
         controller.setOldData(table.getSelectionModel().getSelectedItem());
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(table.getScene().getWindow());

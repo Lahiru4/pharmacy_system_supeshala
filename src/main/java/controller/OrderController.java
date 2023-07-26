@@ -124,7 +124,8 @@ public class OrderController implements Initializable {
 
         try {
             Connection connection = connection = DbConnection.getInstance().getConnection();
-            String query = "select od.order_Id,od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date from orderdetails od inner join orders o ON od.order_id=o.order_id where o.order_id = ?";
+            /*String query = "select od.order_Id,od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date from orderdetails od inner join orders o ON od.order_id=o.order_id where o.order_id = ?";*/
+            String query = "select od.order_Id,od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date,c.number from orderdetails od inner join orders o ON od.order_id=o.order_id inner join day_ordercount c ON c.or_id=o.order_Id where o.order_id =  ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, orderId);
             ResultSet resultSet = preparedStatement.executeQuery();

@@ -59,16 +59,14 @@ public class PlaceorderBOImpl implements PlaceorderBO {
                 connection.setAutoCommit(true);
                 return false;
             }
-            DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
-            String newID = dayOrderCountDAO.generateNewID(LocalDate.now().toString());
-            boolean add1 = dayOrderCountDAO.add(newID, LocalDate.now().toString(), ordersDTO.getOrderId());
-            if (!add1) {
-                connection.rollback();
-                connection.setAutoCommit(true);
-                return false;
-            }
-
-
+        }
+        DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
+        String newID = dayOrderCountDAO.generateNewID(LocalDate.now().toString());
+        boolean add1 = dayOrderCountDAO.add(newID, LocalDate.now().toString(), ordersDTO.getOrderId());
+        if (!add1) {
+            connection.rollback();
+            connection.setAutoCommit(true);
+            return false;
         }
         connection.commit();
         connection.setAutoCommit(true);
@@ -122,6 +120,19 @@ public class PlaceorderBOImpl implements PlaceorderBO {
         }
         connection.commit();
         connection.setAutoCommit(true);
+        return true;
+    }
+
+    @Override
+    public boolean transferring(ObservableList<BillTable2> items) throws SQLException, ClassNotFoundException {
+        for (BillTable2 temp : items) {
+            int OldItemQty = Integer.parseInt(itemsDAO.getOldItemQty(temp));
+            int newItemQty = OldItemQty - temp.getQty();
+            boolean updateQtyOnlyOPT = itemsDAO.updateQtyOnly(temp.getItemCode(), newItemQty);
+            if (!updateQtyOnlyOPT) {
+                return false;
+            }
+        }
         return true;
     }
 }

@@ -12,4 +12,6 @@ import java.util.ArrayList;
 public interface PlaceorderBO {
     public boolean saverOrder(OrdersDTO ordersDTO, ObservableList<BillTable2> items) throws SQLException, ClassNotFoundException;
     public boolean returnOrder(OrdersDTO ordersDTO, ArrayList<ItemsDTO> items) throws SQLException, ClassNotFoundException;
+
+    boolean transferring(ObservableList<BillTable2> items) throws SQLException, ClassNotFoundException;
 }

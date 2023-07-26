@@ -26,7 +26,6 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return orders;
     }
-
     @Override
     public boolean add(OrdersDTO order) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO orders (order_Id, tot_qty, order_date, item_cost, profit) " +
@@ -34,12 +33,10 @@ public class OrderDAOImpl implements OrderDAO {
         return CrudUtil.execute(sql, order.getOrderId(), order.getTotalQuantity(),
                 order.getOrderDate(), order.getItemCost(), order.getProfit());
     }
-
     @Override
     public boolean update(OrdersDTO dto) throws SQLException, ClassNotFoundException {
         return false;
     }
-
     @Override
     public boolean exist(String id) throws SQLException, ClassNotFoundException {
         String sql = "SELECT order_Id FROM orders WHERE order_Id = ?";
@@ -50,7 +47,6 @@ public class OrderDAOImpl implements OrderDAO {
     public String generateNewID() throws SQLException, ClassNotFoundException {
         String sql = "SELECT MAX(CAST(SUBSTRING(order_Id, 4) AS UNSIGNED)) AS max_id_number FROM orders";
         ResultSet resultSet = CrudUtil.execute(sql);
-
         if (resultSet.next()) {
             String currentMaxID = resultSet.getString(1);
             if (currentMaxID != null) {
@@ -61,13 +57,11 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return "ORD001"; // If no existing order IDs found, start with ORD001
     }
-
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
         String sql = "DELETE FROM orders WHERE order_Id = ?";
         return CrudUtil.execute(sql, id);
     }
-
     @Override
     public int yetDateGetCount(String s) throws SQLException, ClassNotFoundException {
         String getCountQuery = "SELECT COUNT(*) AS orderCount FROM orders WHERE order_date = ?";
@@ -79,7 +73,6 @@ public class OrderDAOImpl implements OrderDAO {
         resultSet.close();
         return orderCount;
     }
-
     @Override
     public double getProfit(String date) {
         double totalProfit = 0.0;

@@ -3,6 +3,10 @@ package controller.cashier;
 import bo.PlaceorderBO;
 import bo.PlaceorderBOImpl;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXRadioButton;
+import controller.DashboardController;
+import controller.emloyee.UserlogController;
+import controller.stock.AddInventoryController;
 import dao.custom.DayOrderCountDAO;
 import dao.custom.ItemsDAO;
 import dao.custom.OrderDAO;
@@ -56,14 +60,17 @@ public class CashierController {
     public TextField grossTot;
     public String cashier_name;
     public TextField discount;
+
     public TableColumn amount;
     public Label order_id_lbl;
     public TextField customer_name;
+    public JFXRadioButton transfer;
+    public DashboardController dashboard;
     @FXML
     private AnchorPane itemsAndBill;
 
     @FXML
-    private TableView<ItemsTM> showTable;
+    public TableView<ItemsTM> showTable;
 
     @FXML
     private TableColumn<?, ?> img;
@@ -179,41 +186,7 @@ public class CashierController {
     @FXML
     void payOnAction(ActionEvent event) {
         // save Orders
-        boolean velid = velid();
-        if (velid) {
-            OrdersDTO ordersDTO = collectdata();
-            PlaceorderBO placeorderBO = new PlaceorderBOImpl();
-
-            ObservableList<BillTable2> items = billTable.getItems();
-
-
-            try {
-                boolean b = placeorderBO.saverOrder(ordersDTO, items);
-                if (b) {
-                    Notifications.create()
-                            .graphic(new ImageView(new Image("/view/assests/images/icons8-ok-48.png")))
-                            .text("order success ")
-                            .title("success")
-                            .hideAfter(Duration.seconds(5))
-                            .position(Pos.TOP_RIGHT)
-                            .show();
-                    printBill(billTable.getItems().size() + "", ordersDTO.getOrderId(),
-                            Double.parseDouble(cashPaid.getText()), Double.parseDouble(balance.getText()),
-                            this.getClass().getResourceAsStream("/report/Bill1.jrxml"));
-                    textClear();
-                    billTable.getItems().clear();
-                    billTable.refresh();
-
-
-                    order_id_lbl.setText(generateNewOrderId());
-                    lodeTableData();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+        saveOrder();
 
     }
 
@@ -223,17 +196,31 @@ public class CashierController {
         DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
         String newID = null;
         try {
+            userLogMethode();
             newID = dayOrderCountDAO.generateNewID(LocalDate.now().toString());
             order_id_lbl.setText(newID);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
+    private void userLogMethode() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/emloyee/userlog.fxml"));
+        stage.setScene(new Scene(fxmlLoader.load()));
+        stage.setAlwaysOnTop(true);
+        UserlogController controller = fxmlLoader.getController();
+        controller.setCashierController(this);
+        controller.user.requestFocus();
+        stage.centerOnScreen();
+        stage.show();
+    }
 
-    private void lodeTableData() {
+    public void lodeTableData() {
         img.setCellValueFactory(new PropertyValueFactory<>("img"));
         qty.setCellValueFactory(new PropertyValueFactory<>("QTY"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -244,7 +231,6 @@ public class CashierController {
         // Update UI components or perform UI-related tasks
         //showTable.getItems().removeAll(showTable.getItems());
 
-
         ArrayList<ItemsTM> ob = new ArrayList<>();
         try {
             ArrayList<ItemsDTO> all = itemsDAO.getAll();
@@ -253,16 +239,7 @@ public class CashierController {
                 ImageView imageView = new ImageView(img);
                 imageView.setFitHeight(40);
                 imageView.setPreserveRatio(true);
-                ItemsTM itemTM = new ItemsTM(
-                        item.getItemCode(),
-                        item.getItemDescription(),
-                        item.getQty(),
-                        item.getSellingPrice(),
-                        item.getPurchasePrice(),
-                        imageView,
-                        item.getStockID(),
-                        item.getExpirationDate()
-                );
+                ItemsTM itemTM = new ItemsTM(item.getItemCode(), item.getItemDescription(), item.getQty(), item.getSellingPrice(), item.getPurchasePrice(), imageView, item.getStockID(), item.getExpirationDate());
                 ob.add(itemTM);
                 //
             }
@@ -274,7 +251,7 @@ public class CashierController {
         }
     }
 
-    void setSearchFilter() {
+    public void setSearchFilter() {
         FilteredList<ItemsTM> filteredData = new FilteredList<>(showTable.getItems(), b -> true);
 
         searchTexfeld.setOnKeyPressed(keyEvent -> {
@@ -350,54 +327,121 @@ public class CashierController {
 
     @FXML
     void cashPaidOnAction(ActionEvent event) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        double g_tot = Double.parseDouble(grossTot.getText());
-        double cash = Double.parseDouble(cashPaid.getText());
-        if (cash >= g_tot) {
-            balance.setText(decimalFormat.format((cash - g_tot)));
-            balance.requestFocus();
-        } else new Alert(Alert.AlertType.ERROR, "check cash Amount").show();
+        boolean selected = transfer.isSelected();
+        if (!selected) {
+            DecimalFormat decimalFormat = new DecimalFormat("0.00");
+            double g_tot = Double.parseDouble(grossTot.getText());
+            double cash = Double.parseDouble(cashPaid.getText());
+            if (cash >= g_tot) {
+                balance.setText(decimalFormat.format((cash - g_tot)));
+                saveOrder();
+            } else new Alert(Alert.AlertType.ERROR, "check cash Amount").show();
+        }
     }
 
-    public void balanceOnAction(ActionEvent actionEvent) {
-        // save Orders
-        boolean velid = velid();
-        if (velid) {
-            OrdersDTO ordersDTO = collectdata();
+    private void saveOrder() {
+        if (!cashier_name.equals("user")) {
+            boolean selected = transfer.isSelected();
             PlaceorderBO placeorderBO = new PlaceorderBOImpl();
+            if (!selected) {
+                boolean velid = velid();
+                if (velid) {
+                    OrdersDTO ordersDTO = collectdata();
+                    ObservableList<BillTable2> items = billTable.getItems();
+                    try {
+                        boolean b = placeorderBO.saverOrder(ordersDTO, items);
+                        if (b) {
+                            Notifications.create().graphic(new ImageView(new Image("/view/assests/images/icons8-ok-48.png"))).text("order success ").title("success").hideAfter(Duration.seconds(5)).position(Pos.TOP_RIGHT).show();
+                            if (customer_name.getText().length() > 0) {
+                                printBillCustomerNameWith(billTable.getItems().size() + "", ordersDTO.getOrderId(), Double.parseDouble(cashPaid.getText()), Double.parseDouble(balance.getText()), this.getClass().getResourceAsStream("/report/cus_name_with_bill.jrxml"));//
 
-            ObservableList<BillTable2> items = billTable.getItems();
 
+                            } else {
+                                printBill(billTable.getItems().size() + "", ordersDTO.getOrderId(), Double.parseDouble(cashPaid.getText()), Double.parseDouble(balance.getText()), this.getClass().getResourceAsStream("/report/Bill1.jrxml"));
+                            }
 
-            try {
-                boolean b = placeorderBO.saverOrder(ordersDTO, items);
-                if (b) {
-                    Notifications.create()
-                            .graphic(new ImageView(new Image("/view/assests/images/icons8-ok-48.png")))
-                            .text("order success ")
-                            .title("success")
-                            .hideAfter(Duration.seconds(5))
-                            .position(Pos.TOP_RIGHT)
-                            .show();
-                    printBill(billTable.getItems().size() + "", ordersDTO.getOrderId(),
-                            Double.parseDouble(cashPaid.getText()), Double.parseDouble(balance.getText()),
-                            this.getClass().getResourceAsStream("/report/Bill1.jrxml"));
-                    textClear();
-                    billTable.getItems().clear();
-                    billTable.refresh();
-                    //
-                    DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
-                    String newID = dayOrderCountDAO.generateNewID(LocalDate.now().toString());
-                    order_id_lbl.setText(newID);
-                    lodeTableData();
-
+                            textClear();
+                            billTable.getItems().clear();
+                            billTable.refresh();
+                            //
+                            DayOrderCountDAO dayOrderCountDAO = new DayOrderCountDAOImpl();
+                            String newID = dayOrderCountDAO.generateNewID(LocalDate.now().toString());
+                            order_id_lbl.setText(newID);
+                            lodeTableData();
+                            //
+                            userLogMethode();dashboard.username.setText("user");
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+
+            } else {
+                ObservableList<BillTable2> items = billTable.getItems();
+                try {
+                    boolean transferring = placeorderBO.transferring(items);
+                    if (transferring) {
+                        Notifications.create().graphic(new ImageView(new Image("/view/assests/images/icons8-ok-48.png"))).text("Transferring success").title("success").hideAfter(Duration.seconds(5)).position(Pos.TOP_RIGHT).show();
+                        transfer.setSelected(false);
+                        textClear();
+                        billTable.getItems().clear();
+                        billTable.refresh();
+                        lodeTableData();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
+        } else {
+            Notifications.create().graphic(new ImageView(new Image("/view/assests/images/icons8-cancel-96.png"))).text("Non Access User").title("fall").hideAfter(Duration.seconds(5)).position(Pos.TOP_RIGHT).show();
         }
+
+    }
+
+    private void printBillCustomerNameWith(String count, String orderId, Double cashPaid, Double balance, InputStream resourceAsStream) {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Connection connection = connection = DbConnection.getInstance().getConnection();
+                    String query = "select od.order_Id,od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date ,c.number from orderdetails od inner join  orders o ON od.order_id=o.order_id  inner join day_ordercount c ON c.or_id=o.order_Id where o.order_id = ?";
+                    /*String query = "select od.order_Id,od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date from orderdetails od inner join orders o ON od.order_id=o.order_id where o.order_id = ?";*/
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, orderId);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(resultSet);
+                    JasperDesign jasperDesign = JRXmlLoader.load(resourceAsStream);
+                    JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+
+                    Map<String, Object> parameters = new HashMap<>();
+
+                    parameters.put("order_Id", orderId);
+                    parameters.put("cash_paid", cashPaid);
+                    parameters.put("balance", balance);
+                    parameters.put("count", count);
+                    parameters.put("customer_name", customer_name.getText());
+                    parameters.put("cashier_name", cashier_name);
+
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, resultSetDataSource);
+
+                    //net.sf.jasperreports.view.JasperViewer.viewReport(jasperPrint, false);
+                    JasperPrintManager.printReport(jasperPrint, true);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+
     }
 
     private void textClear() {
@@ -410,36 +454,42 @@ public class CashierController {
     }
 
     private void printBill(String count, String orderId, Double cashPaid, Double balance, InputStream resourceAsStream) {
-        try {
-            Connection connection = connection = DbConnection.getInstance().getConnection();
-            String query = "select od.order_Id,od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date from orderdetails od inner join orders o ON od.order_id=o.order_id where o.order_id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, orderId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(resultSet);
-            JasperDesign jasperDesign = JRXmlLoader.load(resourceAsStream);
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Connection connection = connection = DbConnection.getInstance().getConnection();
+                    String query = "select od.order_Id,od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date ,c.number from orderdetails od inner join  orders o ON od.order_id=o.order_id  inner join day_ordercount c ON c.or_id=o.order_Id where o.order_id = ?";
+                    /*String query = "select od.order_Id,od.name,od.qty, od.selling_price,od.net_tot,o.item_cost,o.order_date from orderdetails od inner join orders o ON od.order_id=o.order_id where o.order_id = ?";*/
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, orderId);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(resultSet);
+                    JasperDesign jasperDesign = JRXmlLoader.load(resourceAsStream);
+                    JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 
 
-            Map<String, Object> parameters = new HashMap<>();
+                    Map<String, Object> parameters = new HashMap<>();
 
-            parameters.put("order_Id", orderId);
-            parameters.put("cash_paid", cashPaid);
-            parameters.put("balance", balance);
-            parameters.put("count", count);
-            parameters.put("customer_name", customer_name.getText());
-            parameters.put("cashier_name", cashier_name);
+                    parameters.put("order_Id", orderId);
+                    parameters.put("cash_paid", cashPaid);
+                    parameters.put("balance", balance);
+                    parameters.put("count", count);
+                    parameters.put("cashier_name", cashier_name);
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, resultSetDataSource);
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, resultSetDataSource);
 
-            //net.sf.jasperreports.view.JasperViewer.viewReport(jasperPrint, false);
-            JasperPrintManager.printReport(jasperPrint, true);
+                    //net.sf.jasperreports.view.JasperViewer.viewReport(jasperPrint, false);
+                    JasperPrintManager.printReport(jasperPrint, true);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
     }
-
     private OrdersDTO collectdata() {
         if (generateNewOrderId().equals("")) {
             new Alert(Alert.AlertType.ERROR, "ID IS NOT 'available'").show();
@@ -453,9 +503,8 @@ public class CashierController {
             // totQty
             int qty = temp.getQty();
             totQty += qty;
-
             //totProfit
-            profit += (temp.getSelling_price() - temp.getPurchase_price())*qty;
+            profit += (temp.getSelling_price() - temp.getPurchase_price()) * qty;
         }
         if (Double.parseDouble(discount.getText()) > 0) {
             double dis = Double.parseDouble(discount.getText());
@@ -470,7 +519,6 @@ public class CashierController {
         String id = "";
         try {
             id = orderDAO.generateNewID();
-
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -479,17 +527,11 @@ public class CashierController {
         return id;
     }
 
-    private void printDiscountBill(String orderId, double cashPaid, double balance, double discount) {
-
-
-    }
-
     public void searchOnAction(ActionEvent actionEvent) throws IOException {
         int selectedIndex = showTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex != -1) {
             ItemsTM items = showTable.getItems().get(selectedIndex);
             AddCartController.setItems(items);
-
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/cashier/AddCart.fxml"));
             Parent parent = fxmlLoader.load();
@@ -501,10 +543,7 @@ public class CashierController {
             stage.centerOnScreen();
             stage.show();
             return;
-
         }
-
-
         ItemsTM items = showTable.getItems().get(0);
         AddCartController.setItems(items);
 
@@ -554,5 +593,29 @@ public class CashierController {
                 setTot(billTable2.getSelling_price(), billTable2.getQty());
             }
         }
+    }
+
+    public void addItemOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/view/stock/AddInventory.fxml"));
+        Parent load = fxmlLoader.load();
+        AddInventoryController controller = fxmlLoader.getController();
+        controller.cashierController = this;
+        controller.pack.setVisible(true);
+        controller.packLbl.setVisible(true);
+        stage.setScene(new Scene(load));
+        stage.centerOnScreen();
+        stage.show();
+        controller.description.requestFocus();
+    }
+
+    public void setUser(String employeeName) {
+        cashier_name=employeeName;
+        dashboard.username.setText(employeeName);
+    }
+
+    public void setdashboardCon(DashboardController dashboardController) {
+        this.dashboard=dashboardController;
+        dashboard.username.setText("user");
     }
 }
