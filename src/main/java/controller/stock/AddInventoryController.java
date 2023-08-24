@@ -239,8 +239,8 @@ public class AddInventoryController {
                                 .position(Pos.TOP_RIGHT)
                                 .darkStyle()
                                 .show();
-                        item_con.lodeTableData();
-
+                        itemCode.getScene().getWindow().hide();
+                        item_con.lodeShodTableData();
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();

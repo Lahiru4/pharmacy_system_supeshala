@@ -31,42 +31,30 @@ public class LoginFormController implements Initializable {
         password.requestFocus();
     }
 
-    public void logInOnAction(ActionEvent actionEvent) {
-        try {
-            boolean exist = employeeDAO.exist(password.getText());
-            if (!exist) {
+    public void logInOnAction(ActionEvent actionEvent) throws IOException {
+            if (password.getText().equals("123")) {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Dashboard.fxml"));
+                Parent parent = fxmlLoader.load();
+                DashboardController controller = fxmlLoader.getController();
+                stage.setScene(new Scene(parent));
+                stage.centerOnScreen();
+                stage.show();
+                password.getScene().getWindow().hide();
+
+            }else {
                 new Alert(Alert.AlertType.ERROR, "NOT USER !").show();
                 password.setStyle("-fx-border-color: red");
                 password.requestFocus();
                 return;
             }
-            Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Dashboard.fxml"));
-            Parent parent = fxmlLoader.load();
-            DashboardController controller = fxmlLoader.getController();
-            stage.setScene(new Scene(parent));
-            stage.centerOnScreen();
-            stage.show();
-            password.getScene().getWindow().hide();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+
 
     }
 
-    public void passwordOnAction(ActionEvent actionEvent) {
-        try {
-            boolean exist = employeeDAO.exist(password.getText());
-            if (!exist) {
-                new Alert(Alert.AlertType.ERROR, "NOT USER !").show();
-                password.setStyle("-fx-border-color: red");
-                password.requestFocus();
-                return;
-            }
+    public void passwordOnAction(ActionEvent actionEvent) throws IOException {
+        if (password.getText().equals("123")) {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Dashboard.fxml"));
             Parent parent = fxmlLoader.load();
@@ -75,12 +63,12 @@ public class LoginFormController implements Initializable {
             stage.centerOnScreen();
             stage.show();
             password.getScene().getWindow().hide();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        }else {
+            new Alert(Alert.AlertType.ERROR, "NOT USER !").show();
+            password.setStyle("-fx-border-color: red");
+            password.requestFocus();
+            return;
         }
     }
 

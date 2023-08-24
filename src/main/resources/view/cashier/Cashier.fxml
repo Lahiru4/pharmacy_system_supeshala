@@ -97,7 +97,7 @@
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="26.0" layoutY="34.0" text="Samadhi Pharmacy" textFill="#f50000">
+                  <Label layoutX="26.0" layoutY="30.0" text="Samadhi Pharmacy" textFill="#f50000">
                      <font>
                         <Font name="System Bold" size="28.0" />
                      </font>
@@ -137,11 +137,23 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </JFXRadioButton>
-                  <JFXButton fx:id="addItems" buttonType="RAISED" layoutX="413.0" layoutY="27.0" onAction="#addItemOnAction" prefHeight="44.0" prefWidth="174.0" styleClass="addItems" stylesheets="@../assests/styles/Stock.css" text="Add New Items">
+                  <JFXButton fx:id="addItems" buttonType="RAISED" layoutX="345.0" layoutY="27.0" onAction="#addItemOnAction" prefHeight="44.0" prefWidth="128.0" styleClass="addItems" stylesheets="@../assests/styles/Stock.css" text="Add Items">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../assests/images/icons8-add-48.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" layoutX="521.0" layoutY="27.0" onAction="#updateOnAction" prefHeight="44.0" prefWidth="128.0" styleClass="addItems" stylesheets="@../assests/styles/Stock.css" text="Update">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assests/images/icons8-magnifying-glass-tilted-right-48.png" />
                            </image>
                         </ImageView>
                      </graphic>

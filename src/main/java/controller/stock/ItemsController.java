@@ -1,5 +1,6 @@
 package controller.stock;
 
+import controller.cashier.CashierController;
 import dao.custom.ItemsDAO;
 import dao.custom.StockDAO;
 import dao.custom.impl.ItemsDAOImpl;
@@ -27,7 +28,6 @@ import tdm.StockTM;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ItemsController implements Initializable {
@@ -57,9 +57,11 @@ public class ItemsController implements Initializable {
     private TableColumn<?, ?> action;
 
     @FXML
-    private TextField searchTexfeld;
-    public ItemsDAO itemsDAO=new ItemsDAOImpl();
-    public StockDAO stockDAO=new StockDAOImpl();
+    public TextField searchTexfeld;
+    public ItemsDAO itemsDAO = new ItemsDAOImpl();
+    public StockDAO stockDAO = new StockDAOImpl();
+    private CashierController cashierController;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -73,9 +75,9 @@ public class ItemsController implements Initializable {
 
         lodeTableData();
     }
+
     public void lodeTableData() {
         try {
-            lists.getItems().clear();
             for (ItemsDTO itemsDTO : itemsDAO.getAll()) {
                 lists.getItems().add(itemsDTO);
             }
@@ -86,6 +88,7 @@ public class ItemsController implements Initializable {
         }
 
     }
+
     void setSearchFilter() {
         FilteredList<ItemsDTO> filteredData = new FilteredList<>(lists.getItems(), b -> true);
 
@@ -117,6 +120,7 @@ public class ItemsController implements Initializable {
     }
 
     public void editOnAction(MouseEvent mouseEvent) throws IOException {
+        searchTexfeld.clear();
         //
         int selectedIndex = lists.getSelectionModel().getSelectedIndex();
         ItemsDTO itemsDTO = lists.getItems().get(selectedIndex);
@@ -138,7 +142,7 @@ public class ItemsController implements Initializable {
             controller.setAllData(stockTM);
             controller.setStockInfo(stockTM);
             controller.setItem(itemsTM);
-            controller.item_con=this;
+            controller.item_con = this;
             stage.centerOnScreen();
             stage.show();
         } catch (SQLException e) {
@@ -146,18 +150,20 @@ public class ItemsController implements Initializable {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
-
-        //
-
-
-
-
     }
+
+    public void setCashiCon(CashierController cashierController) {
+        this.cashierController = cashierController;
+    }
+
+    public void lodeShodTableData() {
+        if (cashierController!=null) {
+            cashierController.searchTexfeld.clear();
+            cashierController.showTable.getItems().remove(cashierController.showTable.getItems());
+            cashierController.showTable.refresh();
+            cashierController.lodeTableData();
+            cashierController.setSearchFilter();
+        }
+    }
+
 }

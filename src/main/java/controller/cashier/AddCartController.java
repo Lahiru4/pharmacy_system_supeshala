@@ -7,19 +7,25 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import tdm.BillItemTM;
 import tdm.BillTable2;
 import tdm.ItemsTM;
 
 public class AddCartController {
     public Label itemsName;
-    private static ItemsTM items;
+    public ItemsTM items;
     public CashierController cashierController;
+
     public TextField price;
     public ImageView detete;
 
-    public static void setItems(ItemsTM items) {
-        AddCartController.items = items;
+    public void setItems(ItemsTM items) {
+        this.items = items;
+        if (items == null) {
+            return;
+        }
+        itemsName.setText(items.getDescription());
+        qty.setText(items.getQTY() + "");
+        price.setText(items.getSelling_price() + "");
     }
 
     public TextField entQty;
@@ -27,13 +33,6 @@ public class AddCartController {
 
 
     public void initialize() {
-        if (items == null) {
-            return;
-        }
-        itemsName.setText(items.getDescription());
-        qty.setText(items.getQTY() + "");
-        price.setText(items.getSelling_price()+"");
-
     }
 
     public void addtobtnOnAction(ActionEvent actionEvent) {
@@ -50,19 +49,31 @@ public class AddCartController {
     }
 
     private boolean qtyCheck() {
-        ObservableList<BillTable2> items1 = cashierController.billTable.getItems();
-        for (BillTable2 temp : items1) {
-            if (temp.getItemCode().equals(items.getItemCode())) {
-                int qty1 = temp.getQty();
-                int entQTY = Integer.parseInt(entQty.getText());
-                int tot = qty1 + entQTY;
-                if (items.getQTY() > tot) {
-                    return true;
-                } else {
-                    return false;
+        if (items != null) {
+            ObservableList<BillTable2> items1 = cashierController.billTable.getItems();
+            for (BillTable2 temp : items1) {
+                if (temp.getItemCode().equals(items.getItemCode())) {
+                    int entQTY = Integer.parseInt(entQty.getText());
+                    if (items.getQTY() >= entQTY) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            for (int i = 0; i < cashierController.showTable.getItems().size(); i++) {
+                if (cashierController.showTable.getItems().get(i).getItemCode().equals(selectedItem.getItemCode())) {
+                    int entQTY = Integer.parseInt(entQty.getText());
+                    if (cashierController.showTable.getItems().get(i).getQTY() >= entQTY) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
         }
+
         return true;
     }
 
@@ -84,11 +95,19 @@ public class AddCartController {
     }
 
     public void setDataAndDeleteOnSetAction(BillTable2 selectedItem) {
-        this.selectedItem=selectedItem;
-        entQty.setText(selectedItem.getQty()+"");
-        price.setText(selectedItem.getSelling_price()+"");
+        this.selectedItem = selectedItem;
         detete.setVisible(true);
+        for (int i = 0; i < cashierController.showTable.getItems().size(); i++) {
+            if (cashierController.showTable.getItems().get(i).getItemCode().equals(selectedItem.getItemCode())) {
+                items=cashierController.showTable.getItems().get(i);
+                itemsName.setText(items.getDescription() + "");
+                qty.setText(items.getQTY() + "");
+                price.setText(items.getSelling_price() + "");
+                return;
+            }
+        }
     }
+
     private BillTable2 selectedItem;
 
     public void deleteOnAction(MouseEvent mouseEvent) {

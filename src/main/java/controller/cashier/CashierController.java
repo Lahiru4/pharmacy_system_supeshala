@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXRadioButton;
 import controller.DashboardController;
 import controller.emloyee.UserlogController;
 import controller.stock.AddInventoryController;
+import controller.stock.ItemsController;
 import dao.custom.DayOrderCountDAO;
 import dao.custom.ItemsDAO;
 import dao.custom.OrderDAO;
@@ -119,7 +120,6 @@ public class CashierController {
     void addCartOnAction(MouseEvent event) throws IOException {
         int selectedIndex = showTable.getSelectionModel().getSelectedIndex();
         ItemsTM items = showTable.getItems().get(selectedIndex);
-        AddCartController.setItems(items);
 
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/cashier/AddCart.fxml"));
@@ -127,6 +127,7 @@ public class CashierController {
         stage.setScene(new Scene(parent));
         AddCartController controller = fxmlLoader.getController();
         controller.cashierController = this;
+        controller.setItems(items);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(showTable.getScene().getWindow());
         stage.centerOnScreen();
@@ -141,8 +142,9 @@ public class CashierController {
 
         for (int i = 0; i < billTable.getItems().size(); i++) {
             if (billTable.getItems().get(i).getItemCode().equals(items.getItemCode())) {
-                billTable.getItems().get(i).setQty(billTable.getItems().get(i).getQty() + qty);
-                billTable.getItems().get(i).setNet_tot(billTable.getItems().get(i).getNet_tot() + (billTable.getItems().get(i).getSelling_price() * qty));
+                /*billTable.getItems().get(i).getQty() +*/
+                billTable.getItems().get(i).setQty(qty);
+                billTable.getItems().get(i).setNet_tot(billTable.getItems().get(i).getSelling_price() * qty);
                 billTable.refresh();
                 setTot(items.getSelling_price(), qty);
                 return;
@@ -153,25 +155,43 @@ public class CashierController {
     }
 
     private void setTot(double sellingPrice, int qty) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        /*DecimalFormat decimalFormat = new DecimalFormat("0.00");
         double cost = sellingPrice * qty;
         double oldTot = Double.parseDouble(tot.getText() + "00");
         double newTot = oldTot + cost;
         String format = decimalFormat.format(newTot);
         tot.setText(format);
-        grossTot.setText(format + "");
-    }
+        grossTot.setText(format + "");*/
 
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        double temp_tot = 0;
+        if (billTable.getItems() != null) {
+            for (BillTable2 item : billTable.getItems()) {
+                temp_tot += item.getNet_tot();
+            }
+        }
+        tot.setText(decimalFormat.format(temp_tot));
+        grossTot.setText(decimalFormat.format(temp_tot));
+
+        if (discount.getText().length() < 1) {
+            return;
+        }
+        if (Double.parseDouble(discount.getText()) > 0) {
+            double d_count = Double.parseDouble(discount.getText());
+            double tot_value = Double.parseDouble(tot.getText());
+            double g_tot = tot_value - ((tot_value / 100) * d_count);
+            grossTot.setText(g_tot + "");
+        }
+    }
     @FXML
     void billDelectOnAction(MouseEvent event) throws IOException {
-        BillTable2 selectedItem = billTable.getSelectionModel().getSelectedItem();
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/cashier/AddCart.fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
         AddCartController controller = fxmlLoader.getController();
         controller.cashierController = this;
-        controller.setDataAndDeleteOnSetAction(selectedItem);
+        controller.setDataAndDeleteOnSetAction(billTable.getSelectionModel().getSelectedItem());
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(showTable.getScene().getWindow());
         stage.centerOnScreen();
@@ -208,6 +228,7 @@ public class CashierController {
         }
 
     }
+
     private void userLogMethode() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/emloyee/userlog.fxml"));
@@ -252,44 +273,52 @@ public class CashierController {
     }
 
     public void setSearchFilter() {
-        FilteredList<ItemsTM> filteredData = new FilteredList<>(showTable.getItems(), b -> true);
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                FilteredList<ItemsTM> filteredData = new FilteredList<>(showTable.getItems(), b -> true);
 
-        searchTexfeld.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode().toString().equals("UP")) {
-                if (showTable.getSelectionModel().getSelectedIndex() == -1) {
-                    showTable.getSelectionModel().select(0);
-                    return;
-                }
-                showTable.getSelectionModel().select(showTable.getSelectionModel().getSelectedIndex() - 1);
-            }
-            if (keyEvent.getCode().toString().equals("DOWN")) {
-                if (showTable.getSelectionModel().getSelectedIndex() == -1) {
-                    showTable.getSelectionModel().select(0);
-                    return;
-                }
-                showTable.getSelectionModel().select(showTable.getSelectionModel().getSelectedIndex() + 1);
+                searchTexfeld.setOnKeyPressed(keyEvent -> {
+                    if (keyEvent.getCode().toString().equals("UP")) {
+                        if (showTable.getSelectionModel().getSelectedIndex() == -1) {
+                            showTable.getSelectionModel().select(0);
+                            return;
+                        }
+                        showTable.getSelectionModel().select(showTable.getSelectionModel().getSelectedIndex() - 1);
+                    }
+                    if (keyEvent.getCode().toString().equals("DOWN")) {
+                        if (showTable.getSelectionModel().getSelectedIndex() == -1) {
+                            showTable.getSelectionModel().select(0);
+                            return;
+                        }
+                        showTable.getSelectionModel().select(showTable.getSelectionModel().getSelectedIndex() + 1);
 
-            }
-            searchTexfeld.textProperty().addListener(((observableValue, oldValue, newValue) -> {
-                filteredData.setPredicate(ItemsTM -> {
-                    if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
-                        return true;
                     }
-                    String searchKeyWord = newValue.toLowerCase();
-                    if (ItemsTM.getItemCode().toLowerCase().indexOf(searchKeyWord) > -1) {
-                        return true;
-                    } else if (ItemsTM.getDescription().toLowerCase().indexOf(searchKeyWord) > -1) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    searchTexfeld.textProperty().addListener(((observableValue, oldValue, newValue) -> {
+                        filteredData.setPredicate(ItemsTM -> {
+                            if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                                return true;
+                            }
+                            String searchKeyWord = newValue.toLowerCase();
+                            if (ItemsTM.getItemCode().toLowerCase().indexOf(searchKeyWord) > -1) {
+                                return true;
+                            } else if (ItemsTM.getDescription().toLowerCase().indexOf(searchKeyWord) > -1) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+                    }));
+
+                    SortedList<ItemsTM> sortedList = new SortedList<>(filteredData);
+                    sortedList.comparatorProperty().bind(showTable.comparatorProperty());
+                    showTable.setItems(sortedList);
                 });
-            }));
+            }
+        };
+        thread.start();
 
-            SortedList<ItemsTM> sortedList = new SortedList<>(filteredData);
-            sortedList.comparatorProperty().bind(showTable.comparatorProperty());
-            showTable.setItems(sortedList);
-        });
     }
 
     public void discountOnAction(KeyEvent keyEvent) {
@@ -369,7 +398,8 @@ public class CashierController {
                             order_id_lbl.setText(newID);
                             lodeTableData();
                             //
-                            userLogMethode();dashboard.username.setText("user");
+                            userLogMethode();
+                            dashboard.username.setText("user");
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -437,6 +467,8 @@ public class CashierController {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                }finally {
+                    customer_name.clear();
                 }
             }
         };
@@ -450,7 +482,6 @@ public class CashierController {
         grossTot.clear();
         cashPaid.clear();
         balance.clear();
-        customer_name.clear();
     }
 
     private void printBill(String count, String orderId, Double cashPaid, Double balance, InputStream resourceAsStream) {
@@ -490,6 +521,7 @@ public class CashierController {
         };
         thread.start();
     }
+
     private OrdersDTO collectdata() {
         if (generateNewOrderId().equals("")) {
             new Alert(Alert.AlertType.ERROR, "ID IS NOT 'available'").show();
@@ -531,13 +563,13 @@ public class CashierController {
         int selectedIndex = showTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex != -1) {
             ItemsTM items = showTable.getItems().get(selectedIndex);
-            AddCartController.setItems(items);
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/cashier/AddCart.fxml"));
             Parent parent = fxmlLoader.load();
             stage.setScene(new Scene(parent));
             AddCartController controller = fxmlLoader.getController();
             controller.cashierController = this;
+            controller.setItems(items);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(showTable.getScene().getWindow());
             stage.centerOnScreen();
@@ -545,7 +577,6 @@ public class CashierController {
             return;
         }
         ItemsTM items = showTable.getItems().get(0);
-        AddCartController.setItems(items);
 
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/cashier/AddCart.fxml"));
@@ -553,6 +584,7 @@ public class CashierController {
         stage.setScene(new Scene(parent));
         AddCartController controller = fxmlLoader.getController();
         controller.cashierController = this;
+        controller.setItems(items);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(showTable.getScene().getWindow());
         stage.centerOnScreen();
@@ -610,12 +642,24 @@ public class CashierController {
     }
 
     public void setUser(String employeeName) {
-        cashier_name=employeeName;
+        cashier_name = employeeName;
         dashboard.username.setText(employeeName);
     }
 
     public void setdashboardCon(DashboardController dashboardController) {
-        this.dashboard=dashboardController;
+        this.dashboard = dashboardController;
         dashboard.username.setText("user");
+    }
+
+    public void updateOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/stock/items.fxml"));
+        stage.setScene(new Scene(fxmlLoader.load()));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(discount.getScene().getWindow());
+        ItemsController controller = fxmlLoader.getController();
+        controller.setCashiCon(this);
+        stage.centerOnScreen();
+        stage.show();
     }
 }

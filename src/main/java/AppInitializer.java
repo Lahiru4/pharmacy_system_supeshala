@@ -14,10 +14,14 @@ public class AppInitializer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
+
         primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/loginform.fxml"))));
         primaryStage.resizableProperty();
         primaryStage.centerOnScreen();
         primaryStage.getIcons().add(new Image("/view/assests/images/WhatsApp_Image_2023-05-11_at_10.01.28-removebg-preview.png"));
         primaryStage.show();
+
+
     }
 }
